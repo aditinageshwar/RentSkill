@@ -1,7 +1,7 @@
-**Skill Rental Platform**
+<h1>Skill Rental Platform</h1>
 This project enables users to rent skills by connecting with others for real-time chat, audio, and video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
 
-**Features**
+<h2>Features</h2>
 
 **Real-Time Chat**: Communicate seamlessly with others in real-time through text chat.
 
@@ -15,7 +15,7 @@ This project enables users to rent skills by connecting with others for real-tim
 
 **Email Verification**: Secure registration with email verification, ensuring that users can activate their accounts before accessing platform features.
 
-**Technologies Used**
+<h2>Technologies Used</h2>
 
 **Frontend**: React
 
@@ -23,8 +23,8 @@ This project enables users to rent skills by connecting with others for real-tim
 
 **Database**: MongoDB
 
-**Real-Time Communication**: Using WebSockets
+**Real-Time Communication**: WebSockets
 
-**Payment System**: Integrated with a payment gateway for time-based billing.
+**Payment System**: Razaorpay
 
-**Email Verification**: Nodemailer is used to send email verification links to users upon registration.
+**Email Verification**: Nodemailer
