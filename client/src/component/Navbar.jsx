@@ -6,11 +6,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
   const navigateTo = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-
-  // const handleIconClick = () => {
-  //   setShowMenu(!showMenu); // Toggle the menu visibility
-  // };
   
   const handleClick = () => {
     navigateTo('/login');
@@ -90,8 +85,7 @@ function Navbar() {
           {/* Account Icon */}
           <div className="relative">
             <FaUserCircle
-              className="absolute text-3xl cursor-pointer hover:text-orange-500 left-25 account-icon"
-              style={{ top: '-12px' }}
+              className="mt-[-15px] absolute text-3xl cursor-pointer hover:text-orange-500 left-25 account-icon"
             />
           </div>
         </div>

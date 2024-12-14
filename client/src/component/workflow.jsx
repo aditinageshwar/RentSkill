@@ -49,14 +49,14 @@ const HowItWorks = () => {
   }, []); 
 
   return (
-    <div className="bg-gray-500 text-white py-12 px-6">
-      <h2 className="text-3xl font-bold text-center mb-8" ref={headingRef}>How it works</h2>
+    <div className="bg-gray-50 text-white py-12 px-6">
+      <h2 className="text-3xl font-bold text-black text-center mb-8" ref={headingRef}>How it works</h2>
       <div className="flex flex-wrap justify-center gap-6">
         {cards.map((card, index) => (
           <div
             key={index}
             ref={(el) => cardsRef.current[index] = el}
-            className="bg-gray-400 rounded-sm shadow-2xl p-6 text-center max-w-sm flex-1"
+            className="bg-gray-500 rounded-sm shadow-2xl p-6 text-center max-w-sm flex-1"
           >
             <img
               src={card.image}
