@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import gsap from "gsap";
 import logo from "../assets/logo.png";  // Your logo path
 import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
+  const navigateTo = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
-  const handleIconClick = () => {
-    setShowMenu(!showMenu); // Toggle the menu visibility
+  // const handleIconClick = () => {
+  //   setShowMenu(!showMenu); // Toggle the menu visibility
+  // };
+  
+  const handleClick = () => {
+    navigateTo('/login');
   };
 
   useEffect(() => {
@@ -78,7 +84,8 @@ function Navbar() {
 
         {/* Right Section: Account Icon */}
         <div className="flex items-center space-x-4">
-          <button className="hidden md:block text-md hover:text-orange-500 mr-5">Login</button>
+          <button className="hidden md:block text-md hover:text-orange-500 mr-5"  
+          onClick={() => handleClick()}>Login</button>
 
           {/* Account Icon */}
           <div className="relative">
