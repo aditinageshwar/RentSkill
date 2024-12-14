@@ -1,11 +1,11 @@
 import './App.css';
-import Login from './component/login';
 import WorkFlow from './component/workflow';
-import Navbar from "./component/Navbar";
-import HeroSection from "./component/HeroSection";
+import Login from './component/login'
+import Navbar from './component/Navbar';
+import HeroSection from './component/HeroSection';
 import Footer from './component/Footer';
-import Categories from "./component/Categories";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Categories from './component/Categories';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SubcategoryPage from './component/SubcategoryPage';
 
 function App() {
@@ -29,10 +29,11 @@ function App() {
 
           {/* Subcategory Page */}
           <Route path="/subcategory" element={<SubcategoryPage />} />
+           {/* Login Page */}
+          <Route path="/login" element={<Login />} />
 
         </Routes>
         <Footer />
-        {/* <Login/> */}
       </div>
     </Router>
   );
