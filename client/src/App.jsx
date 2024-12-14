@@ -1,4 +1,6 @@
 import './App.css';
+import Login from './component/login';
+import WorkFlow from './component/workflow';
 import Navbar from "./component/Navbar";
 import HeroSection from "./component/HeroSection";
 import Footer from './component/Footer';
@@ -20,6 +22,7 @@ function App() {
               <>
                 <HeroSection />
                 <Categories />
+                <WorkFlow/>
               </>
             } 
           />
@@ -29,10 +32,10 @@ function App() {
 
         </Routes>
         <Footer />
+        {/* <Login/> */}
       </div>
     </Router>
   );
 }
 
 export default App;
-
