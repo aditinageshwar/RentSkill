@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { gsap } from 'gsap';
 import heroImage from '../assets/heroImage.jpg';
-import background from '../assets/background.jpg'
+
 
 export default function HeroSection() {
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative bg-cover bg-center h-screen text-white"
-      style={{ backgroundImage: `url(${background})` }}
+      style={{ backgroundImage: `url(${heroImage})` }}
     >
       <div className="bg-black bg-opacity-50 h-full flex flex-col justify-center items-center px-4">
         {/* Heading with GSAP animation */}
