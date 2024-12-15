@@ -7,7 +7,7 @@ import Footer from './component/Footer';
 import Categories from './component/Categories';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SubcategoryPage from './component/SubcategoryPage';
-
+import AboutUs from './component/About';
 function App() {
   return (
     <Router>
@@ -31,6 +31,8 @@ function App() {
           <Route path="/subcategory" element={<SubcategoryPage />} />
            {/* Login Page */}
           <Route path="/login" element={<Login />} />
+          {/* About Us */}
+          <Route path="/aboutUs" element={<AboutUs />} />
 
         </Routes>
         <Footer />

@@ -11,6 +11,10 @@ function Navbar() {
     navigateTo('/login');
   };
 
+  const handleAbout = () => {
+    navigateTo('/aboutUs');
+  };
+
   useEffect(() => {
     const tl = gsap.timeline();
 
@@ -71,7 +75,7 @@ function Navbar() {
             <a href="#" className="hover:text-orange-500">Home</a>
             <a href="#" className="hover:text-orange-500">Browse Skills</a>
             <a href="#" className="hover:text-orange-500">Post Skills</a>
-            <a href="#" className="hover:text-orange-500">My Account</a>
+            <a href="#" className="hover:text-orange-500" onClick={() => handleAbout()}>My Account</a>
             <a href="#" className="hover:text-orange-500">Notifications</a>
             <a href="#" className="hover:text-orange-500">My Booking</a>
           </div>

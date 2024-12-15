@@ -51,8 +51,8 @@ function Login() {
   }, [isLogin]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center mt-1">
-      <div className="relative w-full bg-gray-100 max-w-5xl h-[600px] flex items-center justify-center shadow-2xl" ref={containerRef}>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center mb-[-50px]">
+      <div className="relative w-full bg-gray-100 max-w-5xl h-[600px] flex items-center justify-center shadow-2xl mt-[-50px]" ref={containerRef}>
         <div className="w-1/2 hidden md:block" ref={imageRef}>
           <img src={loginImg} alt="login" className="w-full h-auto" />
         </div>
@@ -125,7 +125,7 @@ function Login() {
                 type="text"
                 placeholder="Name"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 mb-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
               />
             </div>
             <div className="relative">
@@ -134,7 +134,7 @@ function Login() {
                 type="email"
                 placeholder="Email"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 mb-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
               />
             </div>
             <div className="relative">
@@ -144,15 +144,16 @@ function Login() {
                 placeholder="Phone number"
                 pattern="[0-9]{10}"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 mb-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
               />
             </div>
+
             <div className="relative">
               <input
                 type={isPasswordVisible1 ? "text" : "password"}
                 placeholder="Password"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 mb-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
               />
               <button
                type="button"
@@ -165,19 +166,12 @@ function Login() {
 
             <div className="relative">
               <input
-                type={isPasswordVisible2 ? "text" : "password"}
-                placeholder="Confirm Password"
+                type="file"
+                placeholder="Upload Image"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 mb-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
               />
-              <button
-               type="button"
-               onClick={togglePasswordVisibility2}
-               className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
-              >
-               {isPasswordVisible2 ? (<FaEyeSlash className="w-4 h-4 mb-3"/>) : (<FaEye className="w-4 h-6 mb-3" />)}
-              </button>
-            </div>
+            </div>  
 
             <button
               type="submit"
