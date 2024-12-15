@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import WorkFlow from './component/workflow';
 import Login from './component/login'
@@ -5,8 +6,8 @@ import Navbar from './component/Navbar';
 import HeroSection from './component/HeroSection';
 import Footer from './component/Footer';
 import Categories from './component/Categories';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SubcategoryPage from './component/SubcategoryPage';
+import ContactUs from './component/ContactUs';
 
 function App() {
   return (
@@ -14,7 +15,6 @@ function App() {
       <div>
         <Navbar />
         <Routes>
-
           {/* Home Page with HeroSection and Categories */}
           <Route 
             path="/" 
@@ -29,9 +29,10 @@ function App() {
 
           {/* Subcategory Page */}
           <Route path="/subcategory" element={<SubcategoryPage />} />
-           {/* Login Page */}
+          {/* Login Page */}
           <Route path="/login" element={<Login />} />
-
+          {/* ContactUs */}
+          <Route path="/ContactUs" element={<ContactUs/>} />
         </Routes>
         <Footer />
       </div>
