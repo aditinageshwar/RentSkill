@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect,useRef} from 'react';
+import gsap from 'gsap';
 import aboutUs from '../assets/aboutUs.jpg';
 import { HiUsers } from "react-icons/hi";
 import { FaHeadset, FaRegLightbulb, FaComments } from 'react-icons/fa';
@@ -18,8 +19,25 @@ const teamMembers = [
 ];
 
 const AboutUs = () => {
+   const cardsRef = useRef([]);
+   useEffect(() => {
+    gsap.set([...cardsRef.current], {
+      opacity: 0,
+      scale: 0.5,
+    });
+
+    gsap.to(cardsRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 1.5,
+        stagger: 0.3,
+        ease: 'power3.out',
+      });
+    }, []); 
+
   return (
     <div>
+       <div className='border-gray-600 border-[1.4px]'></div> 
        <div className="relative mb-[-20px]">
         <img
           src={aboutUs}
@@ -43,7 +61,7 @@ const AboutUs = () => {
       <section className="py-16 px-6 bg-gray-50 text-center mb-[-40px]">
       <h2 className="text-2xl font-semibold mb-2">Why Choose Rent Skill?</h2>
       <p className="text-lg text-gray-600 mb-12">
-        Rent Skill is here to make your experience as simple and convenient as possible. Here’s why we’re the right choice for you:
+        Rent Skill is here to make your experience as simple and convenient as possible. Here is why, we are the right choice for you.
       </p>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -91,6 +109,7 @@ const AboutUs = () => {
           {teamMembers.map((member, index) => (
             <div
               key={index}
+              ref={(el) => cardsRef.current[index] = el}
               className="group flex flex-col items-center bg-white shadow-lg rounded-lg p-6 w-64 relative"
             >
               <img

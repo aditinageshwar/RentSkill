@@ -5,17 +5,17 @@ import heroImage from '../assets/heroImage.jpg';
 
 export default function HeroSection() {
   useEffect(() => {
-    // GSAP animation for the heading and paragraph
+
     gsap.fromTo(
       '.hero-heading',
-      { opacity: 0, y: -50 },  // Initial state (hidden and moved up)
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 1.5 }  // Final state (fade-in and slide-in from top)
+      { opacity: 0, y: -50 },  
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 1.5 } 
     );
 
     gsap.fromTo(
       '.hero-text',
-      { opacity: 0, y: -50 },  // Initial state (hidden and moved up)
-      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 2 }  // Final state (fade-in and slide-in from top)
+      { opacity: 0, y: -50 },  
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 2 }
     );
   }, []);
 

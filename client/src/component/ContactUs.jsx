@@ -32,40 +32,39 @@ const ContactPage = () => {
 
       {/* Contact Form Section */}
       <section className="mt-10 w-1/2 max-w-4xl px-6 border-2 bg-stone-200 shadow-2xl shadow-gray-500">
-        <h2 className="text-3xl font-bold text-center mb-6 mt-4">Get in <span className="text-cyan-400">touch</span></h2>
+        <h2 className="text-3xl font-bold text-center mb-10 mt-8">Get in <span className="text-cyan-400">touch</span></h2>
         <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <input
             type="text"
             placeholder="First name"
-            className="col-span-1 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="col-span-1 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-1"
           />
           <input
             type="text"
             placeholder="Last name"
-            className="col-span-1 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="col-span-1 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-1"
           />
           <input
             type="email"
             placeholder="Email address"
-            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-1"
           />
            <input
             type="tel"
             placeholder="Phone number"
-            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-1"
           />
           <textarea
             placeholder="Write your message"
-            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="col-span-1 md:col-span-2 p-3 rounded bg-white border border-gray-400 text-sm focus:outline-none focus:ring-1"
             rows="4"
           ></textarea>
 
-          <button
-            type="submit"
-            className="w-36 ml-52 mb-6 col-span-1 md:col-span-2 bg-cyan-400 text-black font-bold py-3 rounded hover:bg-cyan-500 transition"
-          >
-            Submit Now
-          </button>
+          <div className="col-span-1 md:col-span-2 flex justify-center">
+            <button type="submit" className="w-36 h-11 mb-6 bg-cyan-400 text-white text-xl font-bold py-3 rounded hover:bg-cyan-500 transition">
+              Submit
+            </button>
+          </div>
         </form>
       </section>
     </div>

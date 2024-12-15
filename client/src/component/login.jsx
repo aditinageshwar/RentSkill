@@ -77,7 +77,7 @@ function Login() {
                 type="email"
                 placeholder="Email"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4 mt-4"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4 mt-4"
               />
             </div>
 
@@ -86,7 +86,7 @@ function Login() {
                 type={isPasswordVisible1 ? "text" : "password"}
                 placeholder="Password"
                 required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1"
               />
              <button
                type="button"
