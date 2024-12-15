@@ -83,7 +83,7 @@ function Navbar() {
             <a href="#" className="hover:text-orange-500">Post Skills</a>
             <a href="#" className="hover:text-orange-500">My Booking</a>
             <a href="#" className="hover:text-orange-500">Notifications</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleAbout}>My Account</a>
+            <a href="#" className="hover:text-orange-500" onClick={handleAbout}>About Us</a>
             <a href="#" className="hover:text-orange-500" onClick={handleContactUs}>Contact Us</a>
           </div>
         </div>

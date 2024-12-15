@@ -22,7 +22,6 @@ function Login() {
   const handleToggle = () => {
     const tl = gsap.timeline();
 
-    // Animate the "page turn" effect
     tl.to(containerRef.current, {
       rotateY: 90,
       duration: 1,
@@ -37,7 +36,6 @@ function Login() {
   };
 
   useEffect(() => {
-    // Animate the form and image positions
     gsap.fromTo(
       formRef.current,
       { x: isLogin ? 0 : 300, opacity: 0 },
@@ -52,7 +50,7 @@ function Login() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center mb-[-50px]">
-      <div className="relative w-full bg-gray-100 max-w-5xl h-[600px] flex items-center justify-center shadow-2xl mt-[-50px]" ref={containerRef}>
+      <div className="relative w-full bg-gray-100 max-w-5xl h-[600px] flex items-center justify-center shadow-2xl" ref={containerRef}>
         <div className="w-1/2 hidden md:block" ref={imageRef}>
           <img src={loginImg} alt="login" className="w-full h-auto" />
         </div>
