@@ -1,81 +1,64 @@
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import React, { useState, createContext } from "react";
-// import './App.css';
-// import WorkFlow from './component/workflow';
-// import Login from './component/login'
-// import Navbar from './component/Navbar';
-// import HeroSection from './component/HeroSection';
-// import Footer from './component/Footer';
-// import Categories from './component/Categories';
-// import SubcategoryPage from './component/SubcategoryPage';
-// import AboutUs from './component/About';
-// import ContactUs from './component/ContactUs';
-// import BrowseSkill from "./component/BrowseSkill";
-// import PostSkill from "./component/PostSkill";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, createContext } from "react";
+import './App.css';
+import WorkFlow from './component/workflow';
+import Login from './component/login'
+import Navbar from './component/Navbar';
+import HeroSection from './component/HeroSection';
+import Footer from './component/Footer';
+import Categories from './component/Categories';
+import SubcategoryPage from './component/SubcategoryPage';
+import AboutUs from './component/About';
+import ContactUs from './component/ContactUs';
+import BrowseSkill from "./component/BrowseSkill";
+import PostSkill from "./component/PostSkill";
 
-// export const SkillContext = createContext();
+export const SkillContext = createContext();
 
-// function App() {
-//   const [providers, setProviders] = useState([]);
+function App() {
+  const [providers, setProviders] = useState([]);
 
-//   return (
-//     <SkillContext.Provider value={{ providers, setProviders }}>
-//     <Router>
-//       <div>
-//         <Navbar />
-//         <div>
-//         <Routes>
-//           {/* Home Page with HeroSection and Categories */}
-//           <Route 
-//             path="/" 
-//             element={
-//               <>
-//                 <HeroSection />
-//                 <Categories />
-//                 <WorkFlow/>
-//               </>
-//             } 
-//           />
-
-//           {/* Subcategory Page */}
-//           <Route path="/subcategory" element={<SubcategoryPage />} />
-//           {/* Login Page */}
-//           <Route path="/login" element={<Login />} />
-//           {/* About Us */}
-//           <Route path="/aboutUs" element={<AboutUs />} />
-//           {/* ContactUs */}
-//           <Route path="/ContactUs" element={<ContactUs/>} />
-//           {/* Browse Skill */}
-//           <Route path="/browseSkill" element={<BrowseSkill />} />
-//           {/* Post Skill */}
-//           <Route path="/postSkill" element={<PostSkill />} />
-//         </Routes>
-//         </div>
-//         <Footer />
-//       </div>
-//     </Router>
-//     </SkillContext.Provider>
-//   );
-// }
-
-// export default App;
-
-
-
-import React from "react";
-import ChukBhookParagraph from "./component/ChukBhookParagraph";
-
-const App = () => {
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center">
-      <div className="max-w-lg w-full p-6 bg-white rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Color Changing Paragraph
-        </h1>
-        <ChukBhookParagraph />
+    <SkillContext.Provider value={{ providers, setProviders }}>
+    <Router>
+      <div>
+        <Navbar />
+        <div>
+        <Routes>
+          {/* Home Page with HeroSection and Categories */}
+          <Route 
+            path="/" 
+            element={
+              <>
+                <HeroSection />
+                <Categories />
+                <WorkFlow/>
+              </>
+            } 
+          />
+
+          {/* Subcategory Page */}
+          <Route path="/subcategory" element={<SubcategoryPage />} />
+          {/* Login Page */}
+          <Route path="/login" element={<Login />} />
+          {/* About Us */}
+          <Route path="/aboutUs" element={<AboutUs />} />
+          {/* ContactUs */}
+          <Route path="/ContactUs" element={<ContactUs/>} />
+          {/* Browse Skill */}
+          <Route path="/browseSkill" element={<BrowseSkill />} />
+          {/* Post Skill */}
+          <Route path="/postSkill" element={<PostSkill />} />
+        </Routes>
+        </div>
+        <Footer />
       </div>
-    </div>
+    </Router>
+    </SkillContext.Provider>
   );
-};
+}
 
 export default App;
+
+
+
