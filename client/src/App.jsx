@@ -23,7 +23,7 @@ function App() {
     <Router>
       <div>
         <Navbar />
-        <div className="p-4">
+        <div>
         <Routes>
           {/* Home Page with HeroSection and Categories */}
           <Route 
