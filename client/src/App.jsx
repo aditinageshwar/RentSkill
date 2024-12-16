@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, createContext } from "react";
 import './App.css';
 import WorkFlow from './component/workflow';
 import Login from './component/login'
@@ -9,11 +10,20 @@ import Categories from './component/Categories';
 import SubcategoryPage from './component/SubcategoryPage';
 import AboutUs from './component/About';
 import ContactUs from './component/ContactUs';
+import BrowseSkill from "./component/BrowseSkill";
+import PostSkill from "./component/PostSkill";
+
+export const SkillContext = createContext();
+
 function App() {
+  const [providers, setProviders] = useState([]);
+
   return (
+    <SkillContext.Provider value={{ providers, setProviders }}>
     <Router>
       <div>
         <Navbar />
+        <div className="p-4">
         <Routes>
           {/* Home Page with HeroSection and Categories */}
           <Route 
@@ -35,11 +45,16 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} />
           {/* ContactUs */}
           <Route path="/ContactUs" element={<ContactUs/>} />
-          
+          {/* Browse Skill */}
+          <Route path="/browseSkill" element={<BrowseSkill />} />
+          {/* Post Skill */}
+          <Route path="/postSkill" element={<PostSkill />} />
         </Routes>
+        </div>
         <Footer />
       </div>
     </Router>
+    </SkillContext.Provider>
   );
 }
 

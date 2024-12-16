@@ -21,6 +21,14 @@ function Navbar() {
     navigateTo('/ContactUs');
   };
 
+  const handleBrowseSkill = () => {
+    navigateTo('/browseSkill');
+  };
+  
+  const handlePostSkill = () => {
+    navigateTo('/postSkill');
+  };
+  
   const handleOpenProfile = () => {
     setShowProfile(true); 
   };
@@ -79,8 +87,8 @@ function Navbar() {
           </a>
           <div className="hidden md:flex space-x-6 nav-links">
             <a href="#" className="hover:text-orange-500">Home</a>
-            <a href="#" className="hover:text-orange-500">Browse Skills</a>
-            <a href="#" className="hover:text-orange-500">Post Skills</a>
+            <a href="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</a>
+            <a href="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</a>
             <a href="#" className="hover:text-orange-500">My Booking</a>
             <a href="#" className="hover:text-orange-500">Notifications</a>
             <a href="#" className="hover:text-orange-500" onClick={handleAbout}>About Us</a>
