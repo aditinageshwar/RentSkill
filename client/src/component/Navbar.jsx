@@ -5,9 +5,6 @@ import logo from "../assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
 
-// import { Link } from 'react-router-dom';
-
-
 function Navbar() {
   const navigateTo = useNavigate();
   const [showProfile, setShowProfile] = useState(false); 
@@ -19,8 +16,6 @@ function Navbar() {
   const handleAbout = () => {
     navigateTo('/aboutUs');
   }
-
-
 
 
   const handleContactUs = () => {
