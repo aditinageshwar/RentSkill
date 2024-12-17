@@ -23,7 +23,8 @@ const PostSkill = () => {
     }
   };
 
-  const handlePost = () => {
+  const handlePost = (e) => {
+    e.preventDefault();
     const newProvider = {
       id: Date.now(),                     //for unique identification
       photo,
@@ -151,6 +152,7 @@ const PostSkill = () => {
   
           <div className="flex justify-center">
             <button
+              type="submit"
               className="bg-green-500 text-white text-lg w-32 h-9 rounded-md hover:bg-green-600"
               onClick={handlePost}
             >
