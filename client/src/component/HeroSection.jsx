@@ -49,26 +49,23 @@ export default function HeroSection() {
             className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
           <select
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
+            className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
           >
-            <option value="" selected>
-              Choose Categories
-            </option>
+            <option value="" selected disabled hidden> Choose Categories </option>
             <option>Category 1</option>
             <option>Category 2</option>
             <option>Category 3</option>
           </select>
 
           <select
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
+            className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
           >
-            <option value="" selected>
-              Choose Location
-            </option>
+            <option value="" selected disabled hidden> Choose Location </option>
             <option>Location 1</option>
             <option>Location 2</option>
             <option>Location 3</option>
           </select>
+
           <button className="bg-orange-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-orange-600 transition-all duration-300 ease-in-out">
             Search
           </button>
