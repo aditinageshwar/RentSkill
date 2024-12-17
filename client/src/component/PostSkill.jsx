@@ -225,7 +225,8 @@ const PostSkill = () => {
     }
   };
 
-  const handlePost = () => {
+  const handlePost = (e) => {
+    e.preventDefault();
     const newProvider = {
       id: Date.now(), // Unique ID
       photo,
@@ -251,6 +252,7 @@ const PostSkill = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="bg-gray-50">
       <div className="flex items-center justify-center min-h-screen">
         <div className="w-full max-w-md">
@@ -265,6 +267,100 @@ const PostSkill = () => {
                     className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
                   />
                 </div>
+=======
+  <div className="bg-gray-50">
+    <div ref={formRef} className="flex items-center justify-center min-h-screen">
+    <div className="w-full max-w-md">
+      <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
+      <form>
+        <div className="flex flex-col gap-4 border-2 border-gray-400 bg-indigo-50 p-6 rounded-md shadow-gray-600 shadow-lg">
+          <div>
+            <div className="flex items-center justify-center relative">
+              <img
+                src={photo}
+                alt="Profile"
+                className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
+              />
+            </div>
+  
+            <div className="flex justify-center mt-1 mb-4">
+              <label
+                htmlFor="photoInput"
+                className="text-blue-500 cursor-pointer flex items-center space-x-2"
+              >
+                <FaEdit />
+                <span>Change Photo</span>
+              </label>
+              <input
+                id="photoInput"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handlePhotoChange}
+              />
+            </div>
+          </div>
+  
+          <input
+            type="text"
+            placeholder="Your Name"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Your Email"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="tel"
+            placeholder="Your Phone Number"
+            pattern="[0-9]{10}"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Enter Skill (e.g. Art, Cooking, Gardening)"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+            value={skill}
+            onChange={(e) => setSkill(e.target.value)}
+          />
+          <input 
+            type="number" 
+            placeholder="Enter Price/Hour"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+  
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isOnline}
+              onChange={() => setIsOnline(!isOnline)}
+            />
+            Online
+          </label>
+  
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="bg-green-500 text-white text-lg w-32 h-9 rounded-md hover:bg-green-600"
+              onClick={handlePost}
+            >
+              Post Skill
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>  
+>>>>>>> 6c8172df22075059959b6f97d036177e2f708bf1
 
                 <div className="flex justify-center mt-1 mb-4">
                   <label

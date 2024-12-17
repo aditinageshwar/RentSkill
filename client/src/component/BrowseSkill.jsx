@@ -1,22 +1,26 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import { SkillContext } from "../App";
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import { IoVideocam } from "react-icons/io5";
+import Lottie from 'react-lottie';
+import animationData from "../pointSearch.json";
+import { gsap } from "gsap";
 
 const BrowseSkill = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const { providers} = useContext(SkillContext);//add
+  const { providers } = useContext(SkillContext);
+
   const [searchSkill, setSearchSkill] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [sortOrder, setSortOrder] = useState(""); 
+  const [isVisible, setIsVisible] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
 
   const filteredProviders = providers.filter((provider) =>
       provider.skill.toLowerCase().includes(searchSkill.toLowerCase()) && provider.isOnline
   );
 
-  
-  if (sortOrder === "lowToHigh")          
+  if (sortOrder === "lowToHigh")                           //for sorting
     filteredProviders.sort((a, b) => a.price - b.price);
   else if (sortOrder === "highToLow") 
     filteredProviders.sort((a, b) => b.price - a.price);
@@ -34,10 +38,41 @@ const BrowseSkill = () => {
     }, 1000);
     return () => clearInterval(interval); 
   }, []);
+
+  const cardsRef = useRef([]);                           //for gsap animation
+  useEffect(() => {
+    if(isSearching && filteredProviders.length > 0) {
+      if(!animationDone) 
+      {
+        gsap.fromTo(
+          cardsRef.current,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: 0.2, 
+          }
+        );
+        setAnimationDone(true);
+      }
+    } 
+    else 
+    {
+      setAnimationDone(false);
+    }
+  }, [isSearching, filteredProviders, animationDone]);
+
+  const options = {                                        //for Lottie-Animation
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  };
   
   return (
     <div className="p-6">
-      <h2 className="text-2xl text-center font-semibold mb-4">Browse Skills</h2>
+      <h2 className="text-2xl text-center font-semibold mb-6">Browse Skills</h2>
       <div className="flex items-center justify-center mb-6">
         <div className="flex items-center">
           <select
@@ -71,10 +106,18 @@ const BrowseSkill = () => {
         </div>
       </div>
 
+      {!isSearching && (<div>
+        <p className="text-center text-md text-gray-600">Unlock skills, Unlock possibilities.</p>
+        <div className="transform scale-75 origin-center mb-[-140px] mt-[-60px]">
+          <Lottie options={options} height={400} width={400} />
+        </div>
+      </div>
+      )}
+      
       {/* Display Providers */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 mt-12">
-        {isSearching && filteredProviders.length > 0 ? ( filteredProviders.map((provider) => (
-          <div  key={provider.id} className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
+        {isSearching && filteredProviders.length > 0 ? ( filteredProviders.map((provider,index) => (
+          <div  ref={(el) => (cardsRef.current[index] = el)}  key={provider.id}  className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
             <img
               src={provider.photo}
               alt="Profile"
@@ -101,7 +144,7 @@ const BrowseSkill = () => {
           </div>
         ))) :  
          isSearching && filteredProviders.length === 0 && (
-            <marquee direction="right" behavior="scroll" scrollamount="13" className="text-gray-500 text-lg col-span-4">No providers available currently.Please try again later.!</marquee>
+            <marquee direction="right" behavior="scroll" scrollamount="13" className="text-gray-500 text-lg col-span-4 mb-16">No providers available currently.Please try again later.!</marquee>
          )
        }
       </div>
