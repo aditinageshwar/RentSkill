@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { FaEdit } from "react-icons/fa";
+import { gsap } from "gsap";
 import { SkillContext } from "../App";
 
 const PostSkill = () => {
@@ -43,7 +44,7 @@ const PostSkill = () => {
     setPhoto("https://img.freepik.com/free-photo/businesswoman-posing_23-2148142829.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid");                //photo from signup page
     alert("Skill posted successfully!");
   };
-
+ 
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible((prev) => !prev);
@@ -51,13 +52,30 @@ const PostSkill = () => {
     return () => clearInterval(interval); 
   }, []);
 
+
+  const formRef = useRef(null);
+  useEffect(() => {
+    gsap.fromTo(
+      formRef.current,
+      { rotateX: 90, scale: 0.8, opacity: 0 , transformOrigin: "center top" },       //start with
+      { 
+        rotateX: 0,              
+        scale: 1,
+        opacity: 1, 
+        duration: 1.5,            
+        delay: 0.2,
+        ease: "back.out(1.7)",      
+      }
+    );
+  }, []);
+
   return (
   <div className="bg-gray-50">
-    <div className="flex items-center justify-center min-h-screen">
+    <div ref={formRef} className="flex items-center justify-center min-h-screen">
     <div className="w-full max-w-md">
       <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
       <form>
-        <div className="flex flex-col gap-4 border-2 border-black bg-indigo-50 p-6 rounded-md">
+        <div className="flex flex-col gap-4 border-2 border-gray-400 bg-indigo-50 p-6 rounded-md shadow-gray-600 shadow-lg">
           <div>
             <div className="flex items-center justify-center relative">
               <img
