@@ -86,7 +86,7 @@ function Navbar() {
             <img src={logo} alt="Logo" className="h-10 w-auto logo" />
           </a>
           <div className="hidden md:flex space-x-6 nav-links">
-            <a href="#" className="hover:text-orange-500">Home</a>
+            <a href="/" className="hover:text-orange-500">Home</a>
             <a href="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</a>
             <a href="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</a>
             <a href="#" className="hover:text-orange-500">My Booking</a>
