@@ -17,6 +17,7 @@ function Navbar() {
     navigateTo('/aboutUs');
   }
 
+
   const handleContactUs = () => {
     navigateTo('/ContactUs');
   };
