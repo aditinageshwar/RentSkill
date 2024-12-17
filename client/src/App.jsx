@@ -13,6 +13,7 @@ import ContactUs from './component/ContactUs';
 import BrowseSkill from "./component/BrowseSkill";
 import PostSkill from "./component/PostSkill";
 
+
 export const SkillContext = createContext();
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
             } 
           />
 
+
+
           {/* Subcategory Page */}
           <Route path="/subcategory" element={<SubcategoryPage />} />
           {/* Login Page */}
@@ -49,6 +52,9 @@ function App() {
           <Route path="/browseSkill" element={<BrowseSkill />} />
           {/* Post Skill */}
           <Route path="/postSkill" element={<PostSkill />} />
+
+         
+         
         </Routes>
         </div>
         <Footer />
@@ -59,6 +65,8 @@ function App() {
 }
 
 export default App;
+
+
 
 
 

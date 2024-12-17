@@ -5,6 +5,9 @@ import logo from "../assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
 
+// import { Link } from 'react-router-dom';
+
+
 function Navbar() {
   const navigateTo = useNavigate();
   const [showProfile, setShowProfile] = useState(false); 
@@ -16,6 +19,8 @@ function Navbar() {
   const handleAbout = () => {
     navigateTo('/aboutUs');
   }
+
+
 
 
   const handleContactUs = () => {
@@ -87,7 +92,7 @@ function Navbar() {
             <img src={logo} alt="Logo" className="h-10 w-auto logo" />
           </a>
           <div className="hidden md:flex space-x-6 nav-links">
-            <a href="#" className="hover:text-orange-500">Home</a>
+            <a href="/" className="hover:text-orange-500">Home</a>
             <a href="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</a>
             <a href="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</a>
             <a href="#" className="hover:text-orange-500">My Booking</a>

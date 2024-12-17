@@ -6,7 +6,7 @@ import { IoVideocam } from "react-icons/io5";
 
 const BrowseSkill = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { providers } = useContext(SkillContext);
+  const { providers} = useContext(SkillContext);//add
   const [searchSkill, setSearchSkill] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [sortOrder, setSortOrder] = useState(""); 
@@ -15,6 +15,7 @@ const BrowseSkill = () => {
       provider.skill.toLowerCase().includes(searchSkill.toLowerCase()) && provider.isOnline
   );
 
+  
   if (sortOrder === "lowToHigh")          
     filteredProviders.sort((a, b) => a.price - b.price);
   else if (sortOrder === "highToLow") 
@@ -109,3 +110,6 @@ const BrowseSkill = () => {
 };
 
 export default BrowseSkill;
+
+
+
