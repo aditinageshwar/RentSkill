@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { FaEdit } from "react-icons/fa";
 import { gsap } from "gsap";
-import { SkillContext } from "../App";
+import { SkillContext } from './AppContent';
 
 const PostSkill = () => {
   const [isVisible, setIsVisible] = useState(false);
