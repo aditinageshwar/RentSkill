@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
-import { SkillContext } from "../App";
+import { SkillContext } from './AppContent';
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import { IoVideocam } from "react-icons/io5";
@@ -153,6 +153,3 @@ const BrowseSkill = () => {
 };
 
 export default BrowseSkill;
-
-
-
