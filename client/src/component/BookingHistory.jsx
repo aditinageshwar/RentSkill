@@ -8,6 +8,8 @@ export default function BookingHistory()
 
   const sidebarRef = useRef(null); 
   const headingRef = useRef(null); 
+  const browseRef = useRef(null); 
+  const postRef = useRef(null); 
 
   useEffect(() => {
     const browseSkills = [
@@ -68,6 +70,27 @@ export default function BookingHistory()
     );
   }, []);
 
+  useEffect(() => {
+    gsap.set([browseRef.current, postRef.current], {
+      opacity: 0,
+      scale: 0.5,
+    });
+    gsap.to(browseRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 1.5,
+      stagger: 0.3,
+      ease: 'power3.out',
+    });
+    gsap.to(postRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 1.5,
+      stagger: 0.3,
+      ease: 'power3.out',
+    });
+  }, []); 
+
   return (
     <div className="flex bg-gray-100 min-h-screen">
       <div
@@ -92,15 +115,15 @@ export default function BookingHistory()
         </h1>
 
         {/* Browse Skills Table */}
-        <div className="mb-8">
+        <div ref={browseRef} className="mb-8">
           <h2 className="text-xl font-semibold mb-4 flex flex-col items-center">
             Browse Details
           </h2>
           <div className="overflow-x-auto">
-            <table className="w-full table-auto bg-white shadow-md rounded-lg">
+            <table className="w-full table-auto bg-white shadow-md rounded-lg border-2">
             {browseData.length > 0 && (
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-red-200 border-b-2 border-gray-400">
                   <th className="px-4 py-2 text-left">Skill</th>
                   <th className="px-4 py-2 text-left">Price</th>
                   <th className="px-4 py-2 text-left">Date</th>
@@ -108,8 +131,8 @@ export default function BookingHistory()
               </thead>
               )}
               <tbody>
-                {browseData.map((browse) => (
-                  <tr key={browse.id} className="hover:bg-gray-50">
+                {browseData.map((browse,index) => (
+                  <tr key={browse.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
                     <td className="px-4 py-2">{browse.skill}</td>
                     <td className="px-4 py-2">Rs. {browse.price}</td>
                     <td className="px-4 py-2">{browse.date}</td>
@@ -132,15 +155,15 @@ export default function BookingHistory()
         </div>
 
         {/* Post Skills Table */}
-        <div>
+        <div ref={postRef}>
           <h2 className="text-xl font-semibold mb-4 flex flex-col items-center">
             Post Details
           </h2>
           <div className="overflow-x-auto">
-            <table className="w-full table-auto bg-white shadow-md rounded-lg">
+            <table className="w-full table-auto bg-white shadow-md rounded-lg border-2">
              {postData.length > 0 && (
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-red-200 border-b-2 border-gray-400">
                   <th className="px-4 py-2 text-left">Skill</th>
                   <th className="px-4 py-2 text-left">Price</th>
                   <th className="px-4 py-2 text-left">Date</th>
@@ -148,8 +171,8 @@ export default function BookingHistory()
               </thead>
               )}
               <tbody>
-                {postData.map((post) => (
-                  <tr key={post.id} className="hover:bg-gray-50">
+                {postData.map((post,index) => (
+                  <tr key={post.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
                     <td className="px-4 py-2">{post.skill}</td>
                     <td className="px-4 py-2">Rs. {post.price}</td>
                     <td className="px-4 py-2">{post.date}</td>
