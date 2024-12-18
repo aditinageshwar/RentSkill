@@ -49,17 +49,16 @@ const NotificationPage = () => {
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
-  // Use GSAP to animate the heading
   useEffect(() => {
     gsap.fromTo(
       ".heading",
-      { x: -200, opacity: 0 }, // Starting position (off-screen left)
-      { x: 0, opacity: 1, duration: 1 } // Ending position (center)
+      { x: -200, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1 } 
     );
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-gray-50 p-6">
       {/* Header */}
       <div className="relative mb-6 flex items-center">
         <h1 className="text-3xl font-semibold mx-auto heading">Notifications</h1>

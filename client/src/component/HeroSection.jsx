@@ -5,7 +5,6 @@ import heroImage from '../assets/heroImage.jpg';
 
 export default function HeroSection() {
   useEffect(() => {
-
     gsap.fromTo(
       '.hero-heading',
       { opacity: 0, y: -50 },  
@@ -16,6 +15,18 @@ export default function HeroSection() {
       '.hero-text',
       { opacity: 0, y: -50 },  
       { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 2 }
+    );
+
+    gsap.fromTo(
+      '.hero-button',
+      { opacity: 0, y: -50 },  
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 2 } 
+    );
+
+    gsap.fromTo(
+      '.hero-box',
+      { opacity: 0, y: -50 },  
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 2.5 } 
     );
   }, []);
 
@@ -36,13 +47,13 @@ export default function HeroSection() {
         </p>
 
         <div className="mt-6">
-          <button className="hero-button bg-orange-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-orange-600 transition-all duration-300 ease-in-out">
+          <button className="hero-button bg-orange-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-orange-600">
             Get Started
           </button>
         </div>
 
         {/* Search Bar Section */}
-        <div className="mt-10 flex flex-col md:flex-row items-center bg-white rounded-md p-4 shadow-lg w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-6">
+        <div className="hero-box mt-10 flex flex-col md:flex-row items-center bg-white rounded-md p-4 shadow-lg w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-6">
           <input
             type="text"
             placeholder="Enter Keyword"

@@ -76,6 +76,17 @@ function Navbar() {
     );
 
     tl.fromTo(
+      ".login-heading", 
+      { opacity: 0, scale: 0.8 }, 
+      { 
+        opacity: 1, 
+        scale: 1, 
+        duration: 0.6, 
+        ease: "power2.out", 
+      }
+    );
+
+    tl.fromTo(
       ".account-icon", 
       { opacity: 0, scale: 0.8 }, 
       { 
@@ -83,7 +94,6 @@ function Navbar() {
         scale: 1, 
         duration: 0.6, 
         ease: "power2.out", 
-        delay: 0.8 
       }
     );
   }, []);
@@ -107,7 +117,7 @@ function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button className="hidden md:block text-md hover:text-orange-500 mr-5" onClick={handleClick}>Login</button>
+          <button className="hidden md:block text-md hover:text-orange-500 mr-5 login-heading" onClick={handleClick}>Login</button>
 
           <div className="relative">
             <FaUserCircle

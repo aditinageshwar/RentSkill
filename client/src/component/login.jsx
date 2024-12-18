@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginImg from "../assets/login.png";
 import { gsap } from "gsap";
+import VerificationModal from "./VerificationModal.jsx"; 
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [isPasswordVisible2, setIsPasswordVisible2] = useState(false);
-
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  
   const containerRef = useRef(null);
   const formRef = useRef(null);
   const imageRef = useRef(null);
@@ -17,6 +19,10 @@ function Login() {
   }; 
   const togglePasswordVisibility2 = () => {
     setIsPasswordVisible2(!isPasswordVisible2);
+  }; 
+
+  const handleVerify = () => {
+    setIsEmailVerified(true);
   };
 
   const handleToggle = () => {
@@ -58,12 +64,12 @@ function Login() {
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md" ref={formRef}>
           <div className="text-center mb-6">
             <h2 className="text-4xl mb-2 font-bold text-gray-700">
-              {isLogin ? "Login" : "Sign Up"}
+            {isLogin ? "Login" : (isEmailVerified && "Sign Up")}
             </h2>
             <p className="text-sm text-gray-500">
               {isLogin
-               ? "Welcome back! Please login to your account."
-               : "Create your account!"}
+               ? "Welcome back! Please login to your account." :
+               (isEmailVerified && "Create your account!")}
             </p>
         </div>
 
@@ -117,68 +123,90 @@ function Login() {
         {/* Signup Form */}
         {!isLogin && (
           <form className="space-y-2">
-            <div className="relative">
-              <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
-              <input
-                type="text"
-                placeholder="Name"
-                required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
-              />
-            </div>
-            <div className="relative">
-              <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
-              <input
-                type="email"
-                placeholder="Email"
-                required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
-              />
-            </div>
-            <div className="relative">
-              <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
-              <input
-                type="tel"
-                placeholder="Phone number"
-                pattern="[0-9]{10}"
-                required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
-              />
-            </div>
+            {!isEmailVerified ? (
+              <VerificationModal handleVerify={handleVerify} />
+            ) : (
+            <div>
+             <div className="relative">
+                <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
+                <input
+                  type="text"
+                  placeholder="Name"
+                  required
+                  className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
+                />
+              </div>
 
-            <div className="relative">
-              <input
-                type={isPasswordVisible1 ? "text" : "password"}
-                placeholder="Password"
-                required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
-              />
+              <div className="relative">
+                <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
+                <input
+                  type="tel"
+                  placeholder="Phone number"
+                  pattern="[0-9]{10}"
+                  required
+                  className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
+                />
+              </div>
+
+              <div className="relative">
+                <input
+                 type={isPasswordVisible1 ? "text" : "password"}
+                 placeholder="Password"
+                 required
+                 className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
+                />
+                <button
+                 type="button"
+                 onClick={togglePasswordVisibility1}
+                 className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
+                >
+                 {isPasswordVisible1 ? (<FaEyeSlash className="w-4 h-4 mb-3"/>) : (<FaEye className="w-4 h-6 mb-3" />)}
+                </button>
+              </div>
+
+              <div className="relative">
+                <input
+                  type={isPasswordVisible2 ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  required
+                  className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
+                />
+                <button
+                 type="button"
+                 onClick={togglePasswordVisibility2}
+                 className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
+                >
+                 {isPasswordVisible2 ? (<FaEyeSlash className="w-4 h-4 mb-3"/>) : (<FaEye className="w-4 h-6 mb-3" />)}
+                </button>
+              </div>
+
+              <div className="relative">
+                <label
+                  htmlFor="photoInput"
+                  className="text-gray-500 mb-2"
+                >
+                  <span>Upload Image</span>
+                </label> 
+               <input
+                 id="photoInput"
+                 type="file"
+                 required
+                 className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
+               />
+              </div>  
+
               <button
-               type="button"
-               onClick={togglePasswordVisibility1}
-               className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
+                type="submit"
+                disabled={!isEmailVerified}
+                className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
               >
-               {isPasswordVisible1 ? (<FaEyeSlash className="w-4 h-4 mb-3"/>) : (<FaEye className="w-4 h-6 mb-3" />)}
+                Sign Up
               </button>
             </div>
+            )}
 
-            <div className="relative">
-              <input
-                type="file"
-                placeholder="Upload Image"
-                required
-                className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
-              />
-            </div>  
-
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-            >
-              Sign Up
-            </button>
             <p className="text-sm text-center text-gray-500">
-              Already have an account?{" "}
+            Already have an account?{" "}
               <span
                 className="text-blue-500 cursor-pointer hover:underline"
                 onClick={handleToggle}
