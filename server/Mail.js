@@ -1,6 +1,5 @@
 let nodemailer = require('nodemailer');
 
-const sendOTPEmail = async(email, otp) => {
 const author = nodemailer.createTransport(
 {
   service: 'gmail',
@@ -12,21 +11,36 @@ const author = nodemailer.createTransport(
     pass: 'ljgk hpkf zasr kxob'                               //sender created app_password
   }
 });
-
-author.sendMail({
-    from: '"SkillHub" <aditinageshwar7@gmail.com>',      //from: website name and their valid customer_support_email
+    
+const sendLinkMail = async(email, link) => {
+  author.sendMail({
+    from: '"SkillHub" <aditinageshwar7@gmail.com>',           //from: website name and their valid customer_support_email
     to: email, 
-    subject: "Verify OTP", 
-    text: "Your OTP for Verification: ", 
-    html: `<h2>${otp}</h2>
-          <p>This OTP is valid only for 1 minutes.</p>`,
+    subject: "Password Reset Request", 
+    html: `<p> You requested a password reset. Click the link below to reset your password:</p>
+           <a href="${link}"> ${link} </a>
+           <p>This link will expire in 1 min.</p>`
   }, function(err,info){
     if(err)
       console.log(err);
     else
-      console.log(`Email sent successfully: ${info.messageId}`);
-  }
-)
+      console.log(`Email for Reset Link sent successfully: ${info.messageId}`);
+  })
 };
 
-module.exports = {sendOTPEmail};
+const sendOTPEmail = async(email, otp) => {
+  author.sendMail({
+    from: '"SkillHub" <aditinageshwar7@gmail.com>',      //from: website name and their valid customer_support_email
+    to: email, 
+    subject: "Verify OTP", 
+    html: `<h2>${otp}</h2>
+           <p>This OTP is valid only for 1 minutes.</p>`,
+  }, function(err,info){
+    if(err)
+      console.log(err);
+    else
+      console.log(`Email for OTP sent successfully: ${info.messageId}`);
+  })
+};
+
+module.exports = {sendLinkMail, sendOTPEmail};

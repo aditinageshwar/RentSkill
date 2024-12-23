@@ -13,6 +13,8 @@ import BrowseSkill from './BrowseSkill';
 import PostSkill from './PostSkill';
 import BookingHistory from './BookingHistory';
 import NotificationPage from './NotificationPage';
+import ForgotPassword from './ForgotPassword';
+import NewPassword from './NewPassword';
 
 export const SkillContext = createContext();
 
@@ -51,6 +53,8 @@ function AppContent() {
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/browseSkill" element={<BrowseSkill />} />
           <Route path="/postSkill" element={<PostSkill />} />
+          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+          <Route path="/NewPassword/:id" element={<NewPassword />} />
         </Routes>
         <Footer />
       </div>

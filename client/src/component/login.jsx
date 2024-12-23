@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginImg from "../assets/login.png";
 import { gsap } from "gsap";
@@ -6,6 +7,7 @@ import VerificationModal from "./VerificationModal.jsx";
 import axiosInstance from "../Axios.js";
 
 function Login() {
+  const navigateTo = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [isPasswordVisible2, setIsPasswordVisible2] = useState(false);
@@ -25,6 +27,10 @@ function Login() {
   const handleVerify = () => {
     setIsEmailVerified(true);
   };
+
+  const handleForgot = () =>{
+    navigateTo('/ForgotPassword');
+  }
 
   const handleToggle = () => {
     const tl = gsap.timeline();
@@ -153,7 +159,7 @@ function Login() {
              </button>
             </div>
             
-            <p className="text-sm text-blue-500">Forgot Password?</p>
+            <button className="text-sm text-blue-500" onClick={handleForgot}>Forgot Password?</button>
             <button
               type="submit"
               className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-700 transition !mt-8"

@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const {sendOTPEmail} = require('../Mail');
+const {sendLinkMail, sendOTPEmail} = require('../Mail');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 
@@ -92,4 +92,35 @@ handleLogin = async(req,res) => {
   }  
 }
 
-module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin};
+handleForgot = async(req,res) =>{
+  const {email} = req.body;
+  const user = await User.findOne({ email : email });
+  if (!user) {
+    return res.status(400).json({ message: "User not found. Please sign up first!" });
+  }
+    
+  const link = `http://localhost:5173/NewPassword/${user._id}`;
+  sendLinkMail(email,link);
+  req.session.userLink = link; 
+  res.status(200).send({ message: 'Password Reset Link sent to your email successfully!' }); 
+}
+
+handleReset = async(req,res) =>{
+  const { password } = req.body;
+  const link = req.session.userLink;
+  
+  const userId = link.split('/').pop();
+  const user = await User.findById(userId);
+
+  try{
+    user.password = password;
+    await user.save();
+    req.session.userLink = null;
+    res.status(200).json({ message: 'Password has been reset successfully' });
+  }
+  catch(error){
+    res.status(500).json({ message: 'Error resetting password'});
+  }
+}
+
+module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset};
