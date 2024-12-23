@@ -59,6 +59,10 @@ handleSignUp = async(req,res) => {
     });
     await user.save();
     req.session.userEmail = null;
+
+    const token = jwt.sign({ id: user._id }, 'rentskill', { expiresIn: "1d" });
+    res.cookie('uid', token);
+
     return res.status(200).json({ message: 'User created successfully!' });
   } 
   catch (error) 
@@ -84,7 +88,7 @@ handleLogin = async(req,res) => {
 
     const token = jwt.sign({ id: user._id }, 'rentskill', { expiresIn: "1d" });
     res.cookie('uid', token);
-    res.status(200).json({ message: "Login successful", token });
+    res.status(200).json({ message: "Login successful" });
   } 
   catch (error) 
   {
@@ -123,4 +127,23 @@ handleReset = async(req,res) =>{
   }
 }
 
-module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset};
+const handleProfile = async(req, res) => {
+  const token = req.cookies.uid; 
+  if (!token)                                                                          //user not logged-in
+    return res.status(401).json({ message: "Unauthorized User" });
+
+  try {
+    const userId = jwt.verify(token, 'rentskill');
+    const user = await User.findById(userId.id).select("-password");                    // Exclude password
+
+    if (!user) {
+      return res.status(404).json({ message: "Oops, User not found!" });
+    }
+    res.status(200).json({ user });
+  } 
+  catch (error) {
+    res.status(401).json({ message: "Invalid token. Please log in again." });
+  }
+};
+
+module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile};

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage, limits: {fileSize: 10 * 1024 * 1024}});          //upto 10MB
 
-const {handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset} = require('../controllers/User');
+const {handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile} = require('../controllers/User');
 
 router.post('/send', handleSendOTP);
 router.post('/verify', handleVerifyOTP);
@@ -23,5 +23,6 @@ router.post('/signup', upload.single('profileImg'), handleSignUp);
 router.post('/login', handleLogin);
 router.post('/forgotPassword', handleForgot);
 router.post('/resetPassword', handleReset);
+router.get('/userProfile', handleProfile);
 
 module.exports = router;

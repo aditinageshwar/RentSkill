@@ -6,6 +6,7 @@ const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const userRouter = require('./routes/User');                          //get router
 
@@ -14,6 +15,7 @@ connectMongoDB(process.env.MONGO_URL);
 
 app.use(express.json());                                              //Middleware - plugins      
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173',                                   // Frontend URL
