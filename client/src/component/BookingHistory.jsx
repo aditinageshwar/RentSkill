@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import axiosInstance from "../Axios.js";
 
 export default function BookingHistory() 
 {
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    profileImg: "",
+  });
+
   const [browseData, setBrowseData] = useState([]); 
   const [postData, setPostData] = useState([]); 
 
@@ -71,6 +79,20 @@ export default function BookingHistory()
   }, []);
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/userProfile");
+        if (response.data.message) 
+          alert(response.data.message);
+        else if (response.data.user)
+          setUser(response.data.user);
+      } 
+      catch (error) {
+        alert("Failed to load user data.");
+      }
+    };
+    fetchUserData();
+
     gsap.set([browseRef.current, postRef.current], {
       opacity: 0,
       scale: 0.5,
@@ -99,23 +121,23 @@ export default function BookingHistory()
       >
         <div className="p-6 text-center">
           <img
-            src="https://i.pinimg.com/736x/8a/55/99/8a5599792c0d7b0a02377b97fafe76a9.jpg"
+            src={user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
             alt="Profile"
-            className="rounded-full mx-auto mb-4 h-50"
+            className="w-48 h-48 rounded-full object-cover mx-auto mt-8 mb-4 border-2 border-gray-300"
           />
-          <h2 className="text-lg font-bold">Priyanka</h2>
-          <p className="text-sm text-gray-500">Priyanka@gmail.com</p>
-          <p className="text-sm text-gray-500">+91 6789065234</p>
+          <h2 className="text-2xl font-bold"> {user.name} </h2>
+          <p className="text-md text-gray-500"> {user.email} </p>
+          <p className="text-md text-gray-500"> {user.phone} </p>
         </div>
       </div>
 
       <div className="w-3/4 p-8">
-        <h1 ref={headingRef} className="text-2xl font-semibold mb-7">
+        <h1 ref={headingRef} className="text-2xl font-semibold mb-7 mt-[-10px]">
           Booking History
         </h1>
 
         {/* Browse Skills Table */}
-        <div ref={browseRef} className="mb-8">
+        <div ref={browseRef} className="mb-12">
           <h2 className="text-xl font-semibold mb-4 flex flex-col items-center">
             Browse Details
           </h2>

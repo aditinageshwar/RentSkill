@@ -13,13 +13,13 @@ const ContactPage = () => {
           <div className="p-4 bg-zinc-500 text-white rounded flex flex-col items-center transform transition-transform hover:scale-110">
             <FaFacebook className="text-cyan-500 text-2xl mb-2" />
             <h3 className="text-lg font-semibold">SOCIAL MEDIA</h3>
-            <p className="text-sm mt-2">Follow us on Facebook<br />@skillhub</p>
+            <p className="text-sm mt-2">Follow us on Facebook<br />@SkillHub</p>
           </div>
           {/* Email */}
           <div className="p-4 bg-neutral-400 text-white rounded flex flex-col items-center transform transition-transform  hover:scale-110">
             <FaEnvelope className="text-sky-500 text-2xl mb-2" />
             <h3 className="text-lg font-semibold">EMAIL</h3>
-            <p className="text-sm mt-2">Contact@skillhub.com<br />Support@skillhub.com</p>
+            <p className="text-sm mt-2">Contact@SkillHub.com <br/> Support@SkillHub.com </p>
           </div>
           {/* Phone */}
           <div className="p-4 bg-slate-400 text-white rounded flex flex-col items-center transform transition-transform  hover:scale-110">
