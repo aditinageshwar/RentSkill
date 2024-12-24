@@ -11,9 +11,43 @@ const UserProfile = ({onClose}) => {
     phone: "",
     profileImg: "",
   });
+  const [photo, setPhoto] = useState("");
 
   const handlePhotoChange = async(e) => {
-    setPhoto(URL.createObjectURL(e.target.files[0]));
+    setPhoto(e.target.files[0]);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+  
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    formData.append("name", user.name);
+    formData.append("email", user.email);
+    formData.append("phone", user.phone);
+    if (photo) formData.append("profileImg", photo);
+    
+    try 
+    {
+      const response = await axiosInstance.put("/api/updateProfile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.data.success) {
+        alert("Profile updated successfully!");
+        setUser(response.data.user);
+      } 
+      else {
+        alert("Failed to update profile.");
+      }
+    } 
+    catch (error) {
+      alert("An error occurred while updating the profile.");
+    }
   };
 
   const handleCloseProfile = () => {
@@ -79,9 +113,10 @@ const UserProfile = ({onClose}) => {
         <div className="mb-4 relative">
           <input
             type="text"
+            name="name"
             value={user.name}
             placeholder="name"
-            // onChange={(e) => setName(e.target.value)}
+            onChange={handleInputChange}
             className="w-full p-3 rounded-sm bg-gray-200 border text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
           <FaEdit className="absolute top-4 right-3 text-cyan-400" />
@@ -90,9 +125,10 @@ const UserProfile = ({onClose}) => {
         <div className="mb-4 relative">
           <input
             type="email"
+            name="email"
             value={user.email}
             placeholder="email"
-            // onChange={(e) => setEmail(e.target.value)}
+            onChange={handleInputChange}
             className="w-full p-3 rounded-sm bg-gray-200 border text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
           <FaEdit className="absolute top-4 right-3 text-cyan-400" />
@@ -100,17 +136,19 @@ const UserProfile = ({onClose}) => {
         <div className="mb-4 relative">
           <input
             type="tel"
+            name="phone"
             value={user.phone}
             placeholder="phone"
             pattern="[0-9]{10}"
-            // onChange={(e) => setNumber(e.target.value)}
+            onChange={handleInputChange}
             className="w-full p-3 rounded-sm bg-gray-200 border text-sm text-gray-700 focus:outline-none focus:ring-2 "
           />
           <FaEdit className="absolute top-4 right-3 text-cyan-400"/>
         </div>
         <button
           type="submit"
-          className="w-24 h-8 mt-6 bg-orange-400 text-white font-bold rounded hover:bg-cyan-500 transition"
+          onClick={handleSubmit}
+          className="w-24 h-8 mt-6 bg-orange-400 text-white font-bold rounded hover:bg-orange-500 transition"
         >
           Submit
         </button>

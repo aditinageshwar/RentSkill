@@ -146,4 +146,26 @@ const handleProfile = async(req, res) => {
   }
 };
 
-module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile};
+handleUpdateProfile = async(req,res)=>{
+  const token = req.cookies.uid; 
+  const userId = jwt.verify(token, 'rentskill');
+  const user = await User.findById(userId.id).select("-password");  
+  if (!user) {
+    return res.status(404).json({ success: false });
+  }
+  try 
+  {
+    const { name, email, phone } = req.body;
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (phone) user.phone = phone;
+    if (req.file) user.profileImg = req.file.path;
+    await user.save();
+    res.status(200).json({ success: true, user});
+  } 
+  catch (error) {
+    res.status(500).json({ success: false });
+  }
+};
+
+module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile};
