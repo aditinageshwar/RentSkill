@@ -104,7 +104,7 @@ const PostSkill = () => {
     <div ref={formRef} className="flex items-center justify-center min-h-screen">
     <div className="w-full max-w-md">
       <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
-      <form>
+      <form onSubmit={handlePost}>
         <div className="flex flex-col gap-4 border-2 border-gray-400 bg-indigo-50 p-6 rounded-md shadow-gray-600 shadow-lg">
           <div>
             <div className="flex items-center justify-center relative">
@@ -164,6 +164,7 @@ const PostSkill = () => {
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
             value={skill}
             onChange={(e) => setSkill(e.target.value)}
+            required
           />
           <input 
             type="number" 
@@ -171,6 +172,7 @@ const PostSkill = () => {
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            required
           />
   
           <label className="flex items-center gap-2">
@@ -186,7 +188,6 @@ const PostSkill = () => {
             <button
               type="submit"
               className="bg-green-500 text-white text-lg w-32 h-9 rounded-md hover:bg-green-600"
-              onClick={handlePost}
             >
               Post Skill
             </button>
