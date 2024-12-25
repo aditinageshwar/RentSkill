@@ -20,8 +20,19 @@ const PostSkill = () => {
   const [price, setPrice] = useState("");
   const [isOnline, setIsOnline] = useState(true);
      
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);  
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const handlePhotoChange = async(e) => {
-    setPhoto(URL.createObjectURL(e.target.files[0]));
+    const file = e.target.files[0];
+    const base64Image = await convertBlobToBase64(file);
+    setPhoto(base64Image);
   };
 
   const handleInputChange = (e) => {

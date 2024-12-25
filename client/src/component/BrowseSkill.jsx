@@ -71,11 +71,28 @@ const BrowseSkill = () => {
     animationData: animationData,
   };
   
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   useEffect(() => {
     const socket = io("http://localhost:8080", { withCredentials: true });
-    socket.on('newSkill', (newSkill) => {
-      setProviders((prevProviders) => [...prevProviders, newSkill]);
+
+    socket.on('newSkill', async(newSkill) => {
+      if (newSkill.profileImg instanceof Blob || newSkill.profileImg instanceof File) 
+      {
+        const base64Image = await convertBlobToBase64(newSkill.profileImg);
+        setProviders((prevProviders) => [...prevProviders,{ ...newSkill, profileImg: base64Image }]);
+      } 
+      else 
+        setProviders((prevProviders) => [...prevProviders, newSkill]); 
     });
+  
     return () => {
       socket.off('newSkill');
     };
