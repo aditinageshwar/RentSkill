@@ -2,47 +2,65 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import { FaEdit } from "react-icons/fa";
 import { gsap } from "gsap";
 import { SkillContext } from './AppContent';
+import axiosInstance from "../Axios.js";
 
 const PostSkill = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { providers, setProviders } = useContext(SkillContext);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const {providers, postSkill } = useContext(SkillContext);
+
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    profileImg: "",
+  });
+  const [photo, setPhoto] = useState(null);
   const [skill, setSkill] = useState("");
   const [price, setPrice] = useState("");
   const [isOnline, setIsOnline] = useState(true);
-  const [photoFile, setPhotoFile] = useState(null); 
-  const [photo, setPhoto] = useState("https://img.freepik.com/free-photo/businesswoman-posing_23-2148142829.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid");         //photo from signup page
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhoto(URL.createObjectURL(file)); 
-      setPhotoFile(file); 
-    }
+     
+  const handlePhotoChange = async(e) => {
+    setPhoto(URL.createObjectURL(e.target.files[0]));
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/userProfile");
+        if (response.data.message) 
+          alert(response.data.message);
+        else if (response.data.user)
+        setUser(response.data.user);
+      } 
+      catch (error) {
+        alert("Failed to load user data.");
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const handlePost = (e) => {
     e.preventDefault();
     const newProvider = {
-      id: Date.now(),                     //for unique identification
-      photo,
-      name,
-      email,
-      phone,
+      id: Date.now(),                                                                     //for unique identification
+      profileImg : photo ? photo :  `http://localhost:8080/${user.profileImg}`,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
       skill,
       price,
       isOnline,
     };
-    setProviders([...providers, newProvider]);
-    setName("");
-    setEmail("");
-    setPhone("");
+    postSkill(newProvider);
     setSkill("");
     setPrice("");
-    setIsOnline(true);
-    setPhoto("https://img.freepik.com/free-photo/businesswoman-posing_23-2148142829.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid");                //photo from signup page
+    setPhoto(null);
+    setIsOnline(true);              
     alert("Skill posted successfully!");
   };
  
@@ -80,7 +98,7 @@ const PostSkill = () => {
           <div>
             <div className="flex items-center justify-center relative">
               <img
-                src={photo}
+                src={photo ? photo : user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
                 alt="Profile"
                 className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
               />
@@ -106,25 +124,28 @@ const PostSkill = () => {
   
           <input
             type="text"
+            name="name"
             placeholder="Your Name"
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={user.name}
+            onChange={handleInputChange}
           />
           <input
             type="email"
+            name="email"
             placeholder="Your Email"
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={user.email}
+            onChange={handleInputChange}
           />
           <input
             type="tel"
+            name="phone"
             placeholder="Your Phone Number"
             pattern="[0-9]{10}"
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={user.phone}
+            onChange={handleInputChange}
           />
           <input
             type="text"
@@ -168,9 +189,9 @@ const PostSkill = () => {
     <p className="text-center text-2xl font-semibold mb-4">Your Skills at a Glance</p>
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
       {providers.map((provider) => ( 
-      <div className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
+      <div key={provider.id} className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
         <img
-          src={provider.photo}
+          src={provider.profileImg}
           alt="Profile"
           className="w-full h-48 object-cover object-[50%_10%] hover:scale-105"
         />

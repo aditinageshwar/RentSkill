@@ -2,6 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const socketIo = require('socket.io');
+
 const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -40,8 +44,29 @@ app.use(session({
     }
 })); 
 
+const io = socketIo(server,{
+    cors: {
+        origin: "http://localhost:5173", 
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
+    },
+});
+
+io.on('connection', (socket) => {
+    console.log('New User connected');
+
+    socket.on('newSkill', (newSkill) => {
+        console.log('New skill posted:', newSkill);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
+
 app.use('/api',userRouter);
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
