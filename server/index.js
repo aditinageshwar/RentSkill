@@ -58,6 +58,7 @@ io.on('connection', (socket) => {
 
     socket.on('newSkill', (newSkill) => {
         console.log('New skill posted:', newSkill);
+        io.emit('newSkill', newSkill); 
     });
 
     socket.on('disconnect', () => {

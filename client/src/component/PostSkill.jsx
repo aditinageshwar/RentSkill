@@ -3,10 +3,11 @@ import { FaEdit } from "react-icons/fa";
 import { gsap } from "gsap";
 import { SkillContext } from './AppContent';
 import axiosInstance from "../Axios.js";
+import { io } from 'socket.io-client';
 
 const PostSkill = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const {providers, postSkill } = useContext(SkillContext);
+  const {providers, setProviders, postSkill } = useContext(SkillContext);
 
   const [user, setUser] = useState({
     name: "",
@@ -87,6 +88,16 @@ const PostSkill = () => {
       }
     );
   }, []);
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080", { withCredentials: true });
+    socket.on('newSkill', (newSkill) => {
+      setProviders((prevProviders) => [...prevProviders, newSkill]);
+    });
+    return () => {
+      socket.off('newSkill');
+    };
+}, []);
 
   return (
   <div className="bg-gray-50">

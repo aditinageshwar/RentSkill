@@ -32,7 +32,6 @@ function AppContent() {
   }, [navigate]);
    
   const postSkill = (newSkill) => {
-    setProviders((prevProviders) => [...prevProviders, newSkill]);
     socket.emit("newSkill", newSkill);
   };
    

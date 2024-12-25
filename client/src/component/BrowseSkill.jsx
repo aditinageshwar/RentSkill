@@ -6,9 +6,10 @@ import { IoVideocam } from "react-icons/io5";
 import Lottie from 'react-lottie';
 import animationData from "../pointSearch.json";
 import { gsap } from "gsap";
+import { io } from 'socket.io-client';
 
 const BrowseSkill = () => {
-  const { providers } = useContext(SkillContext);
+  const { providers, setProviders } = useContext(SkillContext);
 
   const [searchSkill, setSearchSkill] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -70,6 +71,16 @@ const BrowseSkill = () => {
     animationData: animationData,
   };
   
+  useEffect(() => {
+    const socket = io("http://localhost:8080", { withCredentials: true });
+    socket.on('newSkill', (newSkill) => {
+      setProviders((prevProviders) => [...prevProviders, newSkill]);
+    });
+    return () => {
+      socket.off('newSkill');
+    };
+}, []);
+
   return (
     <div className="p-6">
       <h2 className="text-2xl text-center font-semibold mb-6">Browse Skills</h2>
@@ -119,7 +130,7 @@ const BrowseSkill = () => {
         {isSearching && filteredProviders.length > 0 ? ( filteredProviders.map((provider,index) => (
           <div  ref={(el) => (cardsRef.current[index] = el)}  key={provider.id}  className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
             <img
-              src={provider.photo}
+              src={provider.profileImg}
               alt="Profile"
               className="w-full h-48 object-cover object-[50%_10%] hover:scale-105"
             />
