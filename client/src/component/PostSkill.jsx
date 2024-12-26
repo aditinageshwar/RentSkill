@@ -20,7 +20,7 @@ const PostSkill = () => {
   const [price, setPrice] = useState("");
   const [isOnline, setIsOnline] = useState(true);
      
-  const convertBlobToBase64 = (blob) => {
+  const convertBlobToBase64 = (blob) => {               
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);  
@@ -31,7 +31,7 @@ const PostSkill = () => {
 
   const handlePhotoChange = async(e) => {
     const file = e.target.files[0];
-    const base64Image = await convertBlobToBase64(file);
+    const base64Image = await convertBlobToBase64(file);             //blob image not seen to different clients so Base64 conversion required
     setPhoto(base64Image);
   };
 
