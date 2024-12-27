@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext, useState } from "react";
 import { SkillContext } from './AppContent';
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { BiSolidPhoneCall } from "react-icons/bi";
-import { IoVideocam } from "react-icons/io5";
+import { IoVideocam,IoSend  } from "react-icons/io5";
 import Lottie from 'react-lottie';
 import animationData from "../pointSearch.json";
 import { gsap } from "gsap";
@@ -115,6 +115,14 @@ if(socket.current)
   });
 }
 
+if(socket.current)
+{
+  socket.current.on("providerResponse", (data) => {
+    alert(data); 
+    setRoomId(null);
+  });
+}
+
 const sendMessage = () => {
   if (newMessage.trim() && roomId) {
     socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: 'Priyanka' });               //change with seeker username
@@ -138,7 +146,10 @@ useEffect(() => {
 }, [socket]);
 
 return (
-    <div className="p-6">
+  <div className="p-6">
+    {roomId && <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md z-40"></div>}
+  
+    <div className={roomId ? "blur-md" : ""}>
       <h2 className="text-2xl text-center font-semibold mb-6">Browse Skills</h2>
       <div className="flex items-center justify-center mb-6">
         <div className="flex items-center">
@@ -216,34 +227,37 @@ return (
          )
        }
       </div>
+    </div>
 
-        {/* Chat Modal */}
-        {roomId && (
-        <div className="chat-modal">
-          <div className="chat-header">
+      {/* Chat Page */}
+    {roomId && (
+      <div className="chat-model fixed top-40 left-1/2 transform -translate-x-1/2 w-1/3 z-50 bg-gray-50 border-2 border-gray-400 h-[470px] max-h-[470px] flex flex-col">
+          <div className="chat-header p-4 border-b text-2xl text-center font-semibold">
             <h3>Chat with Skill Provider</h3>
           </div>
-          <div className="chat-body">
+          <div className="chat-body p-4 flex-grow overflow-auto">
             {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender === 'Sender' ? 'sent' : 'received'}`}>
-                <span>{msg.sender} </span><p>{msg.message}</p>
+              <div key={index} className={`message  p-2 mb-2 rounded-lg ${msg.sender === 'Sender' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+                <span>{msg.sender} </span>
+                <p>{msg.message}</p>
               </div>
             ))}
           </div>
-          <div className="chat-footer">
+          <div className="chat-footer p-4 flex items-center border-t">
             <input 
               type="text" 
               value={newMessage} 
               onChange={(e) => setNewMessage(e.target.value)} 
               placeholder="Type a message..." 
+              className="flex-grow p-2 border-2 rounded focus:outline-none focus:ring-1"
             />
-            <button onClick={sendMessage}>Send</button>
+            <button onClick={sendMessage} className="ml-2 p-2 bg-green-600 text-white rounded">
+              <IoSend size={24} />
+            </button>
           </div>
-        </div>
-      )}
-
-
-    </div>
+      </div>
+    )}
+  </div>
   );
 };
 

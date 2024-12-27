@@ -74,16 +74,20 @@ io.on('connection', (socket) => {
        socket.join(roomId);                                                             //room created
     
        const providerSocketId = providerSocketMap[providerId];
-       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });
+       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });             //tell provider to join
 
-       socket.emit('chatRoomCreated', roomId);
+       socket.emit('chatRoomCreated', roomId);                                         //tell seeker to confirm
     });
 
-    socket.on('joinRoom', (roomId) => {
+    socket.on("declineChatRequest", (data) => {                                       //provider reject request
+        io.to(data.seekerId).emit("providerResponse", data.message);
+    });
+
+    socket.on('joinRoom', (roomId) => {                                               //provider accept request
         socket.join(roomId);
     });
 
-    socket.on('sendMessage', ({ roomId, message, senderId }) => {
+    socket.on('sendMessage', ({ roomId, message, senderId }) => {                    //message started
         socket.to(roomId).emit('receiveMessage', { message, senderId });
     });
 

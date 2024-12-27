@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { FaEdit } from "react-icons/fa";
+import { IoSend  } from "react-icons/io5";
 import { gsap } from "gsap";
 import { SkillContext } from './AppContent';
 import axiosInstance from "../Axios.js";
@@ -112,13 +113,19 @@ const PostSkill = () => {
     });
 
     providers.forEach((provider) => {
-      console.log(provider.id);
       socket.current.emit("registerProvider", provider.id); 
     });
 
     socket.current.on("joinChatRoom", ({ roomId, seekerId }) => {
-      socket.current.emit("joinRoom", roomId);
-      setRoomId(roomId);
+      const confirmation = window.confirm("A seeker wants to connect you. Are you want to join the chat?");
+      if(confirmation) {
+        socket.current.emit("joinRoom", roomId);
+        setRoomId(roomId);
+      }
+      else
+      {
+        socket.current.emit("declineChatRequest", { seekerId, message: "The Provider does not want to join the chat with you." });
+      }
     });
 
     socket.current.on('receiveMessage', (msg) => {
@@ -142,21 +149,24 @@ const sendMessage = () => {
 
 return (
   <div className="bg-gray-50">
-    <div ref={formRef} className="flex items-center justify-center min-h-screen">
-    <div className="w-full max-w-md">
-      <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
-      <form onSubmit={handlePost}>
-        <div className="flex flex-col gap-4 border-2 border-gray-400 bg-indigo-50 p-6 rounded-md shadow-gray-600 shadow-lg">
-          <div>
-            <div className="flex items-center justify-center relative">
-              <img
-                src={photo ? photo : user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
-                alt="Profile"
-                className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
-              />
-            </div>
+    {roomId && <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md z-40"></div>}
   
-            <div className="flex justify-center mt-1 mb-4">
+    <div className={roomId ? "blur-md" : ""}>
+     <div ref={formRef} className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md">
+        <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
+        <form onSubmit={handlePost}>
+          <div className="flex flex-col gap-4 border-2 border-gray-400 bg-indigo-50 p-6 rounded-md shadow-gray-600 shadow-lg">
+            <div>
+             <div className="flex items-center justify-center relative">
+                <img
+                  src={photo ? photo : user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
+                />
+             </div>
+  
+             <div className="flex justify-center mt-1 mb-4">
               <label
                 htmlFor="photoInput"
                 className="text-blue-500 cursor-pointer flex items-center space-x-2"
@@ -171,129 +181,132 @@ return (
                 className="hidden"
                 onChange={handlePhotoChange}
               />
+             </div>
             </div>
-          </div>
   
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={user.name}
-            onChange={handleInputChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={user.email}
-            onChange={handleInputChange}
-          />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Your Phone Number"
-            pattern="[0-9]{10}"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={user.phone}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Enter Skill (e.g. Art, Cooking, Gardening)"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={skill}
-            onChange={(e) => setSkill(e.target.value)}
-            required
-          />
-          <input 
-            type="number" 
-            placeholder="Enter Price/Hour"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
+            <input
+             type="text"
+             name="name"
+             placeholder="Your Name"
+             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+             value={user.name}
+             onChange={handleInputChange}
+            />
+            <input
+             type="email"
+             name="email"
+             placeholder="Your Email"
+             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+             value={user.email}
+             onChange={handleInputChange}
+            />
+            <input
+             type="tel"
+             name="phone"
+             placeholder="Your Phone Number"
+             pattern="[0-9]{10}"
+             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+             value={user.phone}
+             onChange={handleInputChange}
+            />
+            <input
+             type="text"
+             placeholder="Enter Skill (e.g. Art, Cooking, Gardening)"
+             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+             value={skill}
+             onChange={(e) => setSkill(e.target.value)}
+             required
+            />
+            <input 
+             type="number" 
+             placeholder="Enter Price/Hour"
+             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
+             value={price}
+             onChange={(e) => setPrice(e.target.value)}
+             required
+            />
   
-          <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={isOnline}
               onChange={() => setIsOnline(!isOnline)}
             />
-            Online
-          </label>
+             Online
+            </label>
   
-          <div className="flex justify-center">
-            <button
+            <div className="flex justify-center">
+             <button
               type="submit"
               className="bg-green-500 text-white text-lg w-32 h-9 rounded-md hover:bg-green-600"
-            >
+             >
               Post Skill
-            </button>
+             </button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-  </div>  
+        </form>
+      </div>
+     </div>  
 
-  <div className="border-2 border-gray-50 rounded-sm mb-4 shadow-sm">
-    <p className="text-center text-2xl font-semibold mb-4">Your Skills at a Glance</p>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
-      {providers.map((provider) => ( 
-      <div key={provider.id} className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
-        <img
-          src={provider.profileImg}
-          alt="Profile"
-          className="w-full h-48 object-cover object-[50%_10%] hover:scale-105"
-        />
-        <div className="p-4">
-          <h3 className="text-lg text-gray-900 mb-1">{provider.name}</h3>
-          <h3 className="text-lg text-gray-900 mb-1">{provider.email}</h3>
-          <h3 className="text-lg text-gray-900 mb-2">{provider.phone}</h3>
-          <p className="text-xl font-semibold">Skills:  {provider.skill}</p>
-          <p className="text-orange-600 text-lg font-bold mb-2">Price/Hour: Rs.{provider.price}</p>
-          <p className={`inline text-xl px-2 font-semibold bg-yellow-400 text-gray-800 rounded-full shadow transition-opacity duration-1000 ${
+     <div className="border-2 border-gray-50 rounded-sm mb-4 shadow-sm">
+      <p className="text-center text-2xl font-semibold mb-4">Your Skills at a Glance</p>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
+        {providers.map((provider) => ( 
+         <div key={provider.id} className="border border-gray-300 rounded-md shadow-xl overflow-hidden">
+          <img
+            src={provider.profileImg}
+            alt="Profile"
+            className="w-full h-48 object-cover object-[50%_10%] hover:scale-105"
+          />
+          <div className="p-4">
+            <h3 className="text-lg text-gray-900 mb-1">{provider.name}</h3>
+            <h3 className="text-lg text-gray-900 mb-1">{provider.email}</h3>
+            <h3 className="text-lg text-gray-900 mb-2">{provider.phone}</h3>
+            <p className="text-xl font-semibold">Skills:  {provider.skill}</p>
+            <p className="text-orange-600 text-lg font-bold mb-2">Price/Hour: Rs.{provider.price}</p>
+            <p className={`inline text-xl px-2 font-semibold bg-yellow-400 text-gray-800 rounded-full shadow transition-opacity duration-1000 ${
               isVisible ? "opacity-100" : "opacity-0"
               }`}> {provider.isOnline ? "Online" : "Offline"} 
-          </p>
+            </p>
+          </div>
+         </div>
+        ))}
+
+        {providers.length === 0 && (
+          <marquee direction="right" behavior="scroll" scrollamount="13" className="text-gray-500 text-lg col-span-4">You haven't posted any skills yet.</marquee>
+        )}
+      </div>
+     </div>
+    </div>
+
+     {/* Chat Page */}
+    {roomId && (
+      <div className="chat-modal fixed top-40 left-1/2 transform -translate-x-1/2 w-1/3 z-50 bg-gray-50 border-2 border-gray-400 h-[470px] max-h-[470px] flex flex-col">
+        <div className="chat-header p-4 border-b text-2xl text-center font-semibold">
+          <h3>Chat with Skill Seeker</h3>
+        </div>
+        <div className="chat-body p-4 flex-grow overflow-auto">
+          {messages.map((msg, index) => (
+            <div key={index} className={`message  p-2 mb-2 rounded-lg ${msg.sender === 'Provider' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+              <span>{msg.sender}: </span>
+              <p>{msg.message}</p>
+            </div>
+          ))}
+        </div>
+        <div className="chat-footer p-4 flex items-center border-t">
+          <input 
+            type="text" 
+            value={newMessage} 
+            onChange={(e) => setNewMessage(e.target.value)} 
+            placeholder="Type a message..." 
+            className="flex-grow p-2 border-2 rounded focus:outline-none focus:ring-1"
+          />
+          <button onClick={sendMessage} className="ml-2 p-2 bg-green-600 text-white rounded">
+            <IoSend size={24} />
+          </button>
         </div>
       </div>
-    ))}
-
-    {providers.length === 0 && (
-        <marquee direction="right" behavior="scroll" scrollamount="13" className="text-gray-500 text-lg col-span-4">You haven't posted any skills yet.</marquee>
     )}
-    </div>
-  </div>
-
-
-  {roomId && (
-        <div className="chat-modal">
-          <div className="chat-header">
-            <h3>Chat with Skill Seeker</h3>
-          </div>
-          <div className="chat-body">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender === 'Provider' ? 'sent' : 'received'}`}>
-                <span>{msg.sender}: </span><p>{msg.message}</p>
-              </div>
-            ))}
-          </div>
-          <div className="chat-footer">
-            <input 
-              type="text" 
-              value={newMessage} 
-              onChange={(e) => setNewMessage(e.target.value)} 
-              placeholder="Type a message..." 
-            />
-            <button onClick={sendMessage}>Send</button>
-          </div>
-        </div>
-      )}
-
-
   </div>
  );
 };
