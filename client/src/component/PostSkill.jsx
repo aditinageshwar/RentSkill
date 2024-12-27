@@ -142,8 +142,10 @@ const PostSkill = () => {
 
 const sendMessage = () => {
   if (newMessage.trim() && roomId) {
-    socket.current.emit('sendMessage', { roomId: roomId , message: newMessage, senderId: 'Aditi' });               //change with provider username
-    setMessages(prevMessages => [...prevMessages, { sender: 'Aditi', message: newMessage }]);                      //change with provider username
+    const parts = roomId.split('-');
+    const providerId = parts[parts.length - 2];
+    socket.current.emit('sendMessage', { roomId: roomId , message: newMessage, senderId: providerId });          
+    setMessages(prevMessages => [...prevMessages, { sender: providerId, message: newMessage }]);                     
     setNewMessage('');
   }
 };
@@ -289,8 +291,8 @@ return (
         </div>
         <div className="chat-body p-4 flex-grow overflow-auto">
           {messages.map((msg, index) => (
-            <div key={index} className={`flex ${ msg.sender === "Aditi" ? "justify-end" : "justify-start"}`}>
-            <div className={`message p-2 mb-1 rounded-lg ${msg.sender === 'Aditi' ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
+            <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-2, -1)[0] ? "justify-end" : "justify-start"}`}>
+            <div className={`message p-2 mb-1 rounded-lg ${msg.sender === roomId.split('-').slice(-2, -1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
               <p>{msg.message}</p>
             </div>
             </div>

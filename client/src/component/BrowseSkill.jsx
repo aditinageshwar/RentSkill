@@ -126,8 +126,10 @@ if(socket.current)
 
 const sendMessage = () => {
   if (newMessage.trim() && roomId) {
-    socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: 'Priyanka' });               //change with seeker username
-    setMessages(prevMessages => [...prevMessages, { sender: 'Priyanka', message: newMessage }]);                     //change with seeker username
+    const parts = roomId.split('-');
+    const senderId = parts[parts.length - 1];
+    socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: senderId });           
+    setMessages(prevMessages => [...prevMessages, { sender: senderId, message: newMessage }]);                     
     setNewMessage('');
   }
 };
@@ -239,8 +241,8 @@ return (
           </div>
           <div className="chat-body p-4 flex-grow overflow-auto">
             {messages.map((msg, index) => (
-             <div key={index} className={`flex ${ msg.sender === "Priyanka" ? "justify-end" : "justify-start"}`}>
-              <div className={`message p-2 mb-1 rounded-lg ${msg.sender === 'Priyanka' ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
+             <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-1)[0] ? "justify-end" : "justify-start"}`}>
+              <div className={`message p-2 mb-1 rounded-lg ${msg.sender === roomId.split('-').slice(-1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
                 <p>{msg.message}</p>
               </div>
              </div>
