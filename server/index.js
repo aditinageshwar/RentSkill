@@ -53,16 +53,42 @@ const io = socketIo(server,{
     },
 });
 
+const providerSocketMap = {};
 io.on('connection', (socket) => {
-    console.log('New User connected');
+    console.log('New User connected:', socket.id);
 
     socket.on('newSkill', (newSkill) => {
-        console.log('New skill posted:', newSkill);
         io.emit('newSkill', newSkill); 
+    });
+    
+    socket.on("registerProvider", (providerId) => {
+        providerSocketMap[providerId] = socket.id;
+    });
+
+    socket.on('startChat', ({providerId, seekerId}) => {
+        if (!providerSocketMap[providerId]) {
+            console.log(`Provider with ID ${providerId} is not connected`);
+            return;
+        }
+       const roomId = `chat-room-${providerId}-${seekerId}`;
+       socket.join(roomId);                                                             //room created
+    
+       const providerSocketId = providerSocketMap[providerId];
+       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });
+
+       socket.emit('chatRoomCreated', roomId);
+    });
+
+    socket.on('joinRoom', (roomId) => {
+        socket.join(roomId);
+    });
+
+    socket.on('sendMessage', ({ roomId, message, senderId }) => {
+        socket.to(roomId).emit('receiveMessage', { message, senderId });
     });
 
     socket.on('disconnect', () => {
-        console.log('User disconnected');
+        console.log('User disconnected', socket.id);
     });
 });
 

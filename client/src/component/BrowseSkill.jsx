@@ -80,10 +80,15 @@ const BrowseSkill = () => {
     });
   };
 
-  useEffect(() => {
-    const socket = io("http://localhost:8080", { withCredentials: true });
+  const [roomId, setRoomId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const socket = useRef(null);
 
-    socket.on('newSkill', async(newSkill) => {
+  useEffect(() => {
+    socket.current = io("http://localhost:8080", { withCredentials: true });
+
+    socket.current.on('newSkill', async(newSkill) => {
       if (newSkill.profileImg instanceof Blob || newSkill.profileImg instanceof File) 
       {
         const base64Image = await convertBlobToBase64(newSkill.profileImg);
@@ -94,11 +99,45 @@ const BrowseSkill = () => {
     });
   
     return () => {
-      socket.off('newSkill');
+      socket.current.off('newSkill');
     };
 }, []);
 
-  return (
+const handleChatClick = (providerId) => {
+  const seekerId = socket.current.id; 
+  socket.current.emit('startChat', {providerId, seekerId });
+};
+
+if(socket.current)
+{
+  socket.current.on('chatRoomCreated', (roomId) => {
+    setRoomId(roomId);
+  });
+}
+
+const sendMessage = () => {
+  if (newMessage.trim() && roomId) {
+    socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: 'Priyanka' });               //change with seeker username
+    setMessages(prevMessages => [...prevMessages, { sender: 'Priyanka', message: newMessage }]);                     //change with seeker username
+    setNewMessage('');
+  }
+};
+
+useEffect(() => {
+  if (socket.current) {
+    socket.current.on('receiveMessage', (msg) => {
+      setMessages((prevMessages) => [...prevMessages, { sender: msg.senderId , message: msg.message }]);
+    });
+  }
+
+  return () => {
+    if (socket.current) {
+      socket.current.off('receiveMessage');
+    }
+  };
+}, [socket]);
+
+return (
     <div className="p-6">
       <h2 className="text-2xl text-center font-semibold mb-6">Browse Skills</h2>
       <div className="flex items-center justify-center mb-6">
@@ -164,7 +203,8 @@ const BrowseSkill = () => {
 
              <div className="flex justify-start gap-6 mt-4">
               <p className="text-xl font-bold">Contact via: </p>
-              <HiChatBubbleOvalLeftEllipsis className="text-4xl text-green-600 hover:scale-125 transition-transform -ml-2" />
+              <HiChatBubbleOvalLeftEllipsis className="text-4xl text-green-600 hover:scale-125 transition-transform -ml-2" 
+                onClick={() => handleChatClick(provider.id)} />
               <BiSolidPhoneCall className="text-4xl text-blue-500 hover:scale-125 transition-transform -ml-2" />
               <IoVideocam className="text-4xl text-yellow-600 hover:scale-125 transition-transform -ml-2" />
             </div>
@@ -176,6 +216,33 @@ const BrowseSkill = () => {
          )
        }
       </div>
+
+        {/* Chat Modal */}
+        {roomId && (
+        <div className="chat-modal">
+          <div className="chat-header">
+            <h3>Chat with Skill Provider</h3>
+          </div>
+          <div className="chat-body">
+            {messages.map((msg, index) => (
+              <div key={index} className={`message ${msg.sender === 'Sender' ? 'sent' : 'received'}`}>
+                <span>{msg.sender} </span><p>{msg.message}</p>
+              </div>
+            ))}
+          </div>
+          <div className="chat-footer">
+            <input 
+              type="text" 
+              value={newMessage} 
+              onChange={(e) => setNewMessage(e.target.value)} 
+              placeholder="Type a message..." 
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        </div>
+      )}
+
+
     </div>
   );
 };

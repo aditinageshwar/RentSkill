@@ -100,17 +100,47 @@ const PostSkill = () => {
     );
   }, []);
 
+  const [roomId, setRoomId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const socket = useRef(null);
+
   useEffect(() => {
-    const socket = io("http://localhost:8080", { withCredentials: true });
-    socket.on('newSkill', (newSkill) => {
+    socket.current = io("http://localhost:8080", { withCredentials: true });
+    socket.current.on('newSkill', (newSkill) => {
       setProviders((prevProviders) => [...prevProviders, newSkill]);
     });
-    return () => {
-      socket.off('newSkill');
-    };
-}, []);
 
-  return (
+    providers.forEach((provider) => {
+      console.log(provider.id);
+      socket.current.emit("registerProvider", provider.id); 
+    });
+
+    socket.current.on("joinChatRoom", ({ roomId, seekerId }) => {
+      socket.current.emit("joinRoom", roomId);
+      setRoomId(roomId);
+    });
+
+    socket.current.on('receiveMessage', (msg) => {
+      setMessages((prevMessages) => [...prevMessages, { sender: msg.senderId , message: msg.message }]);
+    });
+
+    return () => {
+      socket.current.off("newSkill");
+      socket.current.off("joinChatRoom");
+      socket.current.off("receiveMessage");
+    };
+}, [providers]);
+
+const sendMessage = () => {
+  if (newMessage.trim() && roomId) {
+    socket.current.emit('sendMessage', { roomId: roomId , message: newMessage, senderId: 'Aditi' });               //change with provider username
+    setMessages(prevMessages => [...prevMessages, { sender: 'Aditi', message: newMessage }]);                      //change with provider username
+    setNewMessage('');
+  }
+};
+
+return (
   <div className="bg-gray-50">
     <div ref={formRef} className="flex items-center justify-center min-h-screen">
     <div className="w-full max-w-md">
@@ -237,6 +267,32 @@ const PostSkill = () => {
     )}
     </div>
   </div>
+
+
+  {roomId && (
+        <div className="chat-modal">
+          <div className="chat-header">
+            <h3>Chat with Skill Seeker</h3>
+          </div>
+          <div className="chat-body">
+            {messages.map((msg, index) => (
+              <div key={index} className={`message ${msg.sender === 'Provider' ? 'sent' : 'received'}`}>
+                <span>{msg.sender}: </span><p>{msg.message}</p>
+              </div>
+            ))}
+          </div>
+          <div className="chat-footer">
+            <input 
+              type="text" 
+              value={newMessage} 
+              onChange={(e) => setNewMessage(e.target.value)} 
+              placeholder="Type a message..." 
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        </div>
+      )}
+
 
   </div>
  );
