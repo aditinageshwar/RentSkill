@@ -3,6 +3,7 @@ import { SkillContext } from './AppContent';
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import { IoVideocam,IoSend  } from "react-icons/io5";
+import { MdPeopleAlt } from "react-icons/md";
 import Lottie from 'react-lottie';
 import animationData from "../pointSearch.json";
 import { gsap } from "gsap";
@@ -232,18 +233,20 @@ return (
       {/* Chat Page */}
     {roomId && (
       <div className="chat-model fixed top-40 left-1/2 transform -translate-x-1/2 w-1/3 z-50 bg-gray-50 border-2 border-gray-400 h-[470px] max-h-[470px] flex flex-col">
-          <div className="chat-header p-4 border-b text-2xl text-center font-semibold">
-            <h3>Chat with Skill Provider</h3>
+          <div className="chat-header p-4 border-b text-2xl text-gray-600 font-semibold bg-red-100 flex items-center">
+            <MdPeopleAlt size={30} />
+            <h3 className="flex-grow text-center">Chat with Skill Provider</h3>
           </div>
           <div className="chat-body p-4 flex-grow overflow-auto">
             {messages.map((msg, index) => (
-              <div key={index} className={`message  p-2 mb-2 rounded-lg ${msg.sender === 'Sender' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
-                <span>{msg.sender} </span>
+             <div key={index} className={`flex ${ msg.sender === "Priyanka" ? "justify-end" : "justify-start"}`}>
+              <div className={`message p-2 mb-1 rounded-lg ${msg.sender === 'Priyanka' ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
                 <p>{msg.message}</p>
               </div>
+             </div>
             ))}
           </div>
-          <div className="chat-footer p-4 flex items-center border-t">
+          <div className="chat-footer p-4 flex items-center border-t bg-red-100">
             <input 
               type="text" 
               value={newMessage} 
