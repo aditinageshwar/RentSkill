@@ -123,14 +123,14 @@ const PostSkill = () => {
     });
 
     socket.current.on("joinChatRoom", ({ roomId, seekerId }) => {
-      const confirmation = window.confirm("A seeker wants to connect you. Are you want to join the chat?");
+      const confirmation = window.confirm("A seeker is requesting to connect with you. Would you like to join the chat?");
       if(confirmation) {
         socket.current.emit("joinRoom", roomId);
         setRoomId(roomId);
       }
       else
       {
-        socket.current.emit("declineChatRequest", { seekerId, message: "The Provider does not want to join the chat with you." });
+        socket.current.emit("declineChatRequest", { seekerId, message: "The provider has declined to join the chat with you." });
       }
     });
 
@@ -142,17 +142,22 @@ const PostSkill = () => {
       setMessages((prevMessages) => [...prevMessages, { sender: senderId, fileName: fileName, fileData: fileData }]);
     });
 
+    socket.current.on("UserResponse", (message) => {
+      alert(message);
+      setRoomId(null);
+    });
 
     return () => {
       socket.current.off("newSkill");
       socket.current.off("joinChatRoom");
       socket.current.off("receiveMessage");
       socket.current.off('receiveFile');
+      socket.current.off("UserResponse");
     };
 }, [providers]);
 
 const sendMessage = () => {
-  const parts = roomId.split('-');
+  const parts = roomId.split('*');
   const providerId = parts[parts.length - 2];
   if(newMessage.trim()) {
     socket.current.emit('sendMessage', { roomId: roomId , message: newMessage, senderId: providerId });          
@@ -169,6 +174,11 @@ const sendMessage = () => {
     reader.readAsDataURL(file);  
     setFile(null);
   }
+};
+
+const handleLeave = () => {
+  socket.current.emit("UserLeft", { roomId, message : "Skill Provider has left the chat!" });
+  setRoomId(null);
 };
 
 return (
@@ -307,13 +317,14 @@ return (
     {roomId && (
       <div className="chat-modal fixed top-40 left-1/2 transform -translate-x-1/2 w-1/3 z-50 bg-gray-50 border-2 border-gray-400 h-[470px] max-h-[470px] flex flex-col">
         <div className="chat-header p-4 border-b text-2xl text-gray-600 font-semibold bg-red-100 flex items-center">
-           <MdPeopleAlt size={30} />
+          <MdPeopleAlt size={30} />
           <h3 className="flex-grow text-center">Chat with Skill Seeker</h3>
+          <button onClick={handleLeave} className="text-sm px-1 border-2 border-red-600 bg-red-500 text-white relative -top-4 -right-3"> Leave </button>
         </div>
         <div className="chat-body p-4 flex-grow overflow-auto">
           {messages.map((msg, index) => (
-           <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-2, -1)[0] ? "justify-end" : "justify-start"}`}>
-            <div className={`message p-2 mb-1 rounded-lg ${msg.message ? (msg.sender === roomId.split('-').slice(-2, -1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'): ''}`}>  
+           <div key={index} className={`flex ${ msg.sender === roomId.split('*').slice(-2, -1)[0] ? "justify-end" : "justify-start"}`}>
+            <div className={`message p-2 mb-1 rounded-lg ${msg.message ? (msg.sender === roomId.split('*').slice(-2, -1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'): ''}`}>  
              {msg.message ? (
                 <p> {msg.message} </p> 
               ) : msg.fileData ? (

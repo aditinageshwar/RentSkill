@@ -122,16 +122,8 @@ if(socket.current)
   });
 }
 
-if(socket.current)
-{
-  socket.current.on("providerResponse", (data) => {
-    alert(data); 
-    setRoomId(null);
-  });
-}
-
 const sendMessage = () => {
-  const parts = roomId.split('-');
+  const parts = roomId.split('*');
   const senderId = parts[parts.length - 1];
   if(newMessage.trim()) {
     socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: senderId });           
@@ -158,15 +150,32 @@ useEffect(() => {
     socket.current.on('receiveFile', ({ fileName, fileData, senderId }) => {
       setMessages((prevMessages) => [...prevMessages, { sender: senderId, fileName: fileName, fileData: fileData }]);
     });
+
+    socket.current.on("providerResponse", (data) => {
+      alert(data); 
+      setRoomId(null);
+    });
+
+    socket.current.on("UserResponse", (message) => {
+      alert(message);
+      setRoomId(null);
+    });
   }
 
   return () => {
     if (socket.current) {
       socket.current.off('receiveMessage');
       socket.current.off('receiveFile');
+      socket.current.off("providerResponse");
+      socket.current.off("UserResponse");
     }
   };
 }, [socket]);
+
+const handleLeave = () => {
+  socket.current.emit("UserLeft", { roomId, message : "Skill Seeker has left the chat!" });
+  setRoomId(null);
+};
 
 return (
   <div className="p-6">
@@ -258,11 +267,12 @@ return (
           <div className="chat-header p-4 border-b text-2xl text-gray-600 font-semibold bg-red-100 flex items-center">
             <MdPeopleAlt size={30} />
             <h3 className="flex-grow text-center">Chat with Skill Provider</h3>
+            <button onClick={handleLeave} className="text-sm px-1 border-2 border-red-600 bg-red-500 text-white relative -top-4 -right-3"> Leave </button>
           </div>
           <div className="chat-body p-4 flex-grow overflow-auto">
             {messages.map((msg, index) => (
-             <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-1)[0] ? "justify-end" : "justify-start"}`}>
-              <div className={`message p-2 mb-1 rounded-lg ${msg.message ? (msg.sender === roomId.split('-').slice(-1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none') : ''}`}>
+             <div key={index} className={`flex ${ msg.sender === roomId.split('*').slice(-1)[0] ? "justify-end" : "justify-start"}`}>
+              <div className={`message p-2 mb-1 rounded-lg ${msg.message ? (msg.sender === roomId.split('*').slice(-1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none') : ''}`}>
                 {msg.message ? (
                   <p> {msg.message} </p> 
                 ) : msg.fileData ? (

@@ -73,13 +73,13 @@ io.on('connection', (socket) => {
             console.log(`Provider with ID ${providerId} is not connected`);
             return;
         }
-       const roomId = `chat-room-${providerId}-${seekerId}`;
-       socket.join(roomId);                                                             //room created
+       const roomId = `chatroom*${providerId}*${seekerId}`; 
+       socket.join(roomId);                                                           //room created where we are using * to separate providerId and seekerId
     
        const providerSocketId = providerSocketMap[providerId];
-       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });             //tell provider to join
+       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });            //tell provider to join
 
-       socket.emit('chatRoomCreated', roomId);                                         //tell seeker to confirm
+       socket.emit('chatRoomCreated', roomId);                                        //tell seeker to confirm
     });
 
     socket.on("declineChatRequest", (data) => {                                       //provider reject request
@@ -96,6 +96,10 @@ io.on('connection', (socket) => {
 
     socket.on('sendFile', ({ roomId, fileName, fileData, senderId }) => {             //if message is file or image
         socket.to(roomId).emit('receiveFile', { fileName, fileData, senderId });
+    });
+
+    socket.on('UserLeft', ({roomId, message}) => {                                    //if any of two left
+        socket.to(roomId).emit("UserResponse", message);  
     });
 
     socket.on('disconnect', () => {
