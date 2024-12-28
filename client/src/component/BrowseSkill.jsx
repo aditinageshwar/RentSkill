@@ -131,16 +131,14 @@ if(socket.current)
 }
 
 const sendMessage = () => {
-  if (newMessage.trim() && roomId) {
-    const parts = roomId.split('-');
-    const senderId = parts[parts.length - 1];
+  const parts = roomId.split('-');
+  const senderId = parts[parts.length - 1];
+  if(newMessage.trim()) {
     socket.current.emit('sendMessage', { roomId: roomId, message: newMessage, senderId: senderId });           
     setMessages(prevMessages => [...prevMessages, { sender: senderId, message: newMessage }]);                     
     setNewMessage('');
   }
-  else if(file && roomId) {
-    const parts = roomId.split('-');
-    const senderId = parts[parts.length - 1];
+  else if(file) {
     const reader = new FileReader();
     reader.onload = () => {
       socket.current.emit('sendFile', { roomId: roomId, fileName: file.name, fileData: reader.result, senderId: senderId });
@@ -277,7 +275,16 @@ return (
 
           <div className="chat-footer p-4 flex items-center border-t bg-red-100">
            <div className="relative flex items-center flex-grow">
-           <input 
+            {file && (
+             <div className="absolute left-0 right-0 top-[-185px] mx-auto w-[450px] h-[170px]">
+              <img 
+                src={URL.createObjectURL(file)} 
+                alt="Preview" 
+                className="w-full h-full object-cover rounded-md"
+              />
+             </div>
+            )}
+            <input 
               type="text" 
               value={newMessage} 
               onChange={(e) => setNewMessage(e.target.value)} 
