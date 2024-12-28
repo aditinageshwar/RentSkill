@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPaperclip } from "react-icons/fa";
 import { IoSend  } from "react-icons/io5";
 import { MdPeopleAlt } from "react-icons/md";
 import { gsap } from "gsap";
@@ -105,7 +105,12 @@ const PostSkill = () => {
   const [roomId, setRoomId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [file, setFile] = useState(null);
   const socket = useRef(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   useEffect(() => {
     socket.current = io("http://localhost:8080", { withCredentials: true });
@@ -133,10 +138,16 @@ const PostSkill = () => {
       setMessages((prevMessages) => [...prevMessages, { sender: msg.senderId , message: msg.message }]);
     });
 
+    socket.current.on('receiveFile', ({ fileName, fileData, senderId }) => {
+      setMessages((prevMessages) => [...prevMessages, { sender: senderId, fileName: fileName, fileData: fileData }]);
+    });
+
+
     return () => {
       socket.current.off("newSkill");
       socket.current.off("joinChatRoom");
       socket.current.off("receiveMessage");
+      socket.current.off('receiveFile');
     };
 }, [providers]);
 
@@ -147,6 +158,18 @@ const sendMessage = () => {
     socket.current.emit('sendMessage', { roomId: roomId , message: newMessage, senderId: providerId });          
     setMessages(prevMessages => [...prevMessages, { sender: providerId, message: newMessage }]);                     
     setNewMessage('');
+  }
+  else if(file && roomId)
+  {
+    const parts = roomId.split('-');
+    const providerId = parts[parts.length - 2];
+    const reader = new FileReader();
+    reader.onload = () => {
+      socket.current.emit('sendFile', { roomId: roomId, fileName: file.name, fileData: reader.result, senderId: providerId });
+      setMessages((prevMessages) => [...prevMessages, { sender: providerId, fileName: file.name, fileData: reader.result}]);
+    };
+    reader.readAsDataURL(file);  
+    setFile(null);
   }
 };
 
@@ -291,24 +314,39 @@ return (
         </div>
         <div className="chat-body p-4 flex-grow overflow-auto">
           {messages.map((msg, index) => (
-            <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-2, -1)[0] ? "justify-end" : "justify-start"}`}>
-            <div className={`message p-2 mb-1 rounded-lg ${msg.sender === roomId.split('-').slice(-2, -1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'}`}>
-              <p>{msg.message}</p>
+           <div key={index} className={`flex ${ msg.sender === roomId.split('-').slice(-2, -1)[0] ? "justify-end" : "justify-start"}`}>
+            <div className={`message p-2 mb-1 rounded-lg ${msg.message ? (msg.sender === roomId.split('-').slice(-2, -1)[0] ? 'bg-blue-400 text-white rounded-tr-none' : 'bg-orange-300 text-white rounded-tl-none'): ''}`}>  
+             {msg.message ? (
+                <p> {msg.message} </p> 
+              ) : msg.fileData ? (
+                <img src={msg.fileData} alt={msg.fileName} className="max-w-[150px] max-h-[150px] w-auto h-auto" /> 
+              ) : null}
             </div>
-            </div>
+           </div>
           ))}
         </div>
+
         <div className="chat-footer p-4 flex items-center border-t bg-red-100">
+         <div className="relative flex items-center flex-grow">
           <input 
             type="text" 
             value={newMessage} 
             onChange={(e) => setNewMessage(e.target.value)} 
             placeholder="Type a message..." 
-            className="flex-grow p-2 border-2 rounded focus:outline-none focus:ring-1"
+            className="flex-grow p-2 border-2 rounded focus:outline-none focus:ring-1 pr-10"
           />
-          <button onClick={sendMessage} className="ml-2 p-2 bg-green-600 text-white rounded">
-            <IoSend size={24} />
-          </button>
+          <label className="absolute right-4 cursor-pointer top-1/2 transform -translate-y-1/2">
+            <FaPaperclip size={18} className="text-blue-300" />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+         </div>
+         <button onClick={sendMessage} className="ml-2 p-2 bg-green-600 text-white rounded">
+           <IoSend size={24} />
+         </button>
         </div>
       </div>
     )}

@@ -11,6 +11,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const multer = require('multer'); 
 
 const userRouter = require('./routes/User');                          //get router
 
@@ -44,6 +45,8 @@ app.use(session({
     }
 })); 
 
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
 const io = socketIo(server,{
     cors: {
         origin: "http://localhost:5173", 
@@ -87,8 +90,12 @@ io.on('connection', (socket) => {
         socket.join(roomId);
     });
 
-    socket.on('sendMessage', ({ roomId, message, senderId }) => {                    //message started
+    socket.on('sendMessage', ({ roomId, message, senderId }) => {                     //message started
         socket.to(roomId).emit('receiveMessage', { message, senderId });
+    });
+
+    socket.on('sendFile', ({ roomId, fileName, fileData, senderId }) => {             //if message is file or image
+        socket.to(roomId).emit('receiveFile', { fileName, fileData, senderId });
     });
 
     socket.on('disconnect', () => {
