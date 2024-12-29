@@ -21,4 +21,18 @@ const saveBookingHistory = async (req, res) =>
    return res.status(200).json({ message: 'Booking history saved successfully' });
 };
 
-module.exports = { saveBookingHistory };
+const handleBooking = async (req,res) => {
+  try
+  {
+    const { email } = req.query;
+    const browseData = await SeekerBooking.find({ seekerEmail: email });
+    const postData = await ProviderBooking.find({ providerEmail: email });
+    return res.status(200).json({ browseData, postData });
+   } 
+   catch (error) 
+   {
+     return res.status(500).json({ message: "Failed to fetch booking history" });
+   }
+}
+
+module.exports = { saveBookingHistory , handleBooking};

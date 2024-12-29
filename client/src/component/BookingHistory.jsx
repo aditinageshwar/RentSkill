@@ -20,78 +20,39 @@ export default function BookingHistory()
   const postRef = useRef(null); 
 
   useEffect(() => {
-    const browseSkills = [
-      {
-        id: 1,
-        skill: "Cooking",
-        price: 200,
-        date: "2024-06-10",
-      },
-      {
-        id: 2,
-        skill: "Drawing",
-        price: 300,
-        date: "2024-06-12",
-      },
-      {
-        id: 3,
-        skill: "Art Design",
-        price: 150,
-        date: "2024-06-14",
-      },
-    ];
-
-    const postSkills = [
-      {
-        id: 1,
-        skill: "Photography",
-        price: 500,
-        date: "2024-06-11",
-      },
-      {
-        id: 2,
-        skill: "Teaching",
-        price: 800,
-        date: "2024-06-13",
-      },
-      {
-        id: 3,
-        skill: "Web Development",
-        price: 1000,
-        date: "2024-06-15",
-      },
-    ];
-    setBrowseData(browseSkills);
-    setPostData(postSkills);
-
-    
-    gsap.fromTo(
-      sidebarRef.current,
-      { y: 200, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
-    );
-
-    gsap.fromTo(
-      headingRef.current,
-      { x: -200, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
-    );
-  }, []);
-
-  useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axiosInstance.get("/api/userProfile");
         if (response.data.message) 
           alert(response.data.message);
         else if (response.data.user)
-          setUser(response.data.user);
+        { 
+          const userData = response.data.user;
+          setUser(userData);
+          const bookingResponse = await axiosInstance.get(`/api/bookingHistory?email=${userData.email}`);
+          if(bookingResponse.data)
+          {
+            setBrowseData(bookingResponse.data.browseData);
+            setPostData(bookingResponse.data.postData);
+          }
+        }
       } 
       catch (error) {
         alert("Failed to load user data.");
       }
-    };
+    };  
     fetchUserData();
+
+    gsap.fromTo(
+      sidebarRef.current,
+      { y: 200, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      headingRef.current,
+      { x: -200, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
+    );
 
     gsap.set([browseRef.current, postRef.current], {
       opacity: 0,
@@ -155,8 +116,8 @@ export default function BookingHistory()
               <tbody>
                 {browseData.map((browse,index) => (
                   <tr key={browse.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
-                    <td className="px-4 py-2">{browse.skill}</td>
-                    <td className="px-4 py-2">Rs. {browse.price}</td>
+                    <td className="px-4 py-2">{browse.Skill}</td>
+                    <td className="px-4 py-2">Rs. {browse.Price}</td>
                     <td className="px-4 py-2">{browse.date}</td>
                   </tr>
                 ))}
@@ -195,8 +156,8 @@ export default function BookingHistory()
               <tbody>
                 {postData.map((post,index) => (
                   <tr key={post.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
-                    <td className="px-4 py-2">{post.skill}</td>
-                    <td className="px-4 py-2">Rs. {post.price}</td>
+                    <td className="px-4 py-2">{post.Skill}</td>
+                    <td className="px-4 py-2">Rs. {post.Price}</td>
                     <td className="px-4 py-2">{post.date}</td>
                   </tr>
                 ))}

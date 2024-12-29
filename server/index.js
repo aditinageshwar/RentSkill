@@ -76,19 +76,19 @@ io.on('connection', (socket) => {
             return;
         }
        const roomId = `chatroom*${providerId}*${seekerId}`; 
-       socket.join(roomId);                                                           //room created where we are using * to separate providerId and seekerId
+       socket.join(roomId);                                                    //room created where we are using * to separate providerId and seekerId
     
        const providerSocketId = providerSocketMap[providerId];
-       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId, seekerEmail, providerEmail, Skill, Price});            //tell provider to join
+       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId, seekerEmail, providerEmail, Skill, Price});      //tell provider to join
 
-       socket.emit('chatRoomCreated', roomId);                                        //tell seeker to confirm
+       socket.emit('chatRoomCreated', roomId);                                               //tell seeker to confirm
     });
 
-    socket.on("declineChatRequest", (data) => {                                       //provider reject request
+    socket.on("declineChatRequest", (data) => {                                              //provider reject request
         io.to(data.seekerId).emit("providerResponse", data.message);
     });
 
-    socket.on('joinRoom', async({roomId, seekerEmail, providerEmail, Skill, Price}) => {                                               //provider accept request and connection established
+    socket.on('joinRoom', async({roomId, seekerEmail, providerEmail, Skill, Price}) => {     //provider accept request and connection established
 
         const response = await axios.post('http://localhost:8080/api/saveBooking', {
             seekerEmail,
