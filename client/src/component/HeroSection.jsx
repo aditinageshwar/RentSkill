@@ -36,16 +36,12 @@ export default function HeroSection() {
       style={{ backgroundImage: `url(${heroImage})` }}
     >
       <div className="bg-black bg-opacity-50 h-full flex flex-col justify-center items-center px-4">
-        {/* Heading with GSAP animation */}
         <h1 className="hero-heading text-4xl md:text-6xl font-bold">
           Hire Skilled Professionals
         </h1>
-
-        {/* Paragraph with GSAP animation */}
         <p className="hero-text mt-4 text-lg md:text-xl">
           Easily find the perfect service you need, all in one place.
         </p>
-
         <div className="mt-6">
           <button className="hero-button bg-orange-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-orange-600">
             Get Started

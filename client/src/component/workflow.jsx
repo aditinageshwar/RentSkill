@@ -1,5 +1,6 @@
 import React, {useEffect,useRef} from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import image1 from '../assets/workflow1.jpg';
 import image2 from '../assets/workflow2.jpg';
 import image3 from '../assets/workflow3.jpg';
@@ -26,6 +27,7 @@ const HowItWorks = () => {
   ];
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     gsap.set([headingRef.current, ...cardsRef.current], {
       opacity: 0,
       scale: 0.5,
@@ -36,6 +38,12 @@ const HowItWorks = () => {
       opacity: 1,
       scale: 1,
       duration: 1,
+      scrollTrigger: {
+        trigger: headingRef.current,
+        start: 'top 90%', 
+        end: 'top 10%',
+        scrub: 1, 
+      },
     });
 
     // Animate the cards
@@ -45,6 +53,12 @@ const HowItWorks = () => {
       duration: 1.5,
       stagger: 0.3,
       ease: 'power3.out',
+      scrollTrigger: {
+        trigger: cardsRef.current,
+        start: 'top 90%', 
+        end: 'top 10%',
+        scrub: 1,
+      },
     });
   }, []); 
 

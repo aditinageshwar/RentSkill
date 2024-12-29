@@ -44,11 +44,9 @@ function Navbar() {
     navigateTo('/aboutUs');
   }
   
-
   const handleNotification = () =>{
     navigateTo('/notification')
   }
-
 
   const handleContactUs = () => {
     navigateTo('/ContactUs');

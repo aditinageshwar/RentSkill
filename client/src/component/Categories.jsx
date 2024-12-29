@@ -9,6 +9,8 @@ import cooking from "../assets/cooking.jpg";
 import autocare from "../assets/autocare.jpg";
 import Home from "../assets/Home.jpg";
 import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import HomeAppliances from "../assets/HomeAppliances.jpg";
 import Electronics from "../assets/Electronics.jpg";
 import Plumbing from "../assets/Plumbing.jpg";
@@ -149,6 +151,7 @@ const Categories = () => {
   };
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     gsap.set(categoryRefs.current, {
         opacity: 0,
         x:-100,
@@ -156,9 +159,15 @@ const Categories = () => {
     gsap.to(categoryRefs.current, {  
     opacity: 1,
     x:0,
-    duration: 1.5,
-    stagger: 0.2,
-    ease: 'power3.out',
+    duration: 10,
+    stagger: 0.7,
+    ease: 'slow(0.7, 0.7)',
+    scrollTrigger: {
+      trigger: categoryRefs.current, 
+      start: 'top bottom', 
+      end: 'bottom top',
+      scrub: 1, 
+    },
     });
   }, []);
 
@@ -169,8 +178,8 @@ const Categories = () => {
         <h2 className="text-2xl font-bold text-center">Popular Categories</h2>
 
         <button className="absolute right-0 px-4 py-2 border border-black rounded-md text-black hover:bg-gray-100 flex items-center space-x-2">
-          <span className="text-lg">View All</span> {/* Set text size for consistency */}
-          <span className="text-lg font-bold">{'\u203A'}</span> {/* Match the size of the arrow to the text */}
+          <span className="text-lg">View All</span> 
+          <span className="text-lg font-bold">{'\u203A'}</span>
         </button>
       </div>
 
