@@ -34,12 +34,16 @@ function Navbar() {
   };
 
   const handleMyBooking=()=>{
+    if(isLoggedIn)
     navigateTo('/bookingTable')
+    else
+    alert("First, kindly log in to access this feature."); 
   }
 
   const handleAbout = () => {
     navigateTo('/aboutUs');
   }
+  
 
   const handleNotification = () =>{
     navigateTo('/notification')
@@ -51,11 +55,17 @@ function Navbar() {
   };
 
   const handleBrowseSkill = () => {
+    if(isLoggedIn)
     navigateTo('/browseSkill');
+    else
+    alert("First, kindly log in to access this feature."); 
   };
   
   const handlePostSkill = () => {
+    if(isLoggedIn)
     navigateTo('/postSkill');
+    else
+    alert("First, kindly log in to access this feature."); 
   };
   
   const handleOpenProfile = () => {
