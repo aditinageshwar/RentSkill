@@ -122,10 +122,10 @@ const PostSkill = () => {
       socket.current.emit("registerProvider", provider.id); 
     });
 
-    socket.current.on("joinChatRoom", ({ roomId, seekerId }) => {
+    socket.current.on("joinChatRoom", ({ roomId, seekerId, seekerEmail, providerEmail, Skill, Price}) => {
       const confirmation = window.confirm("A seeker is requesting to connect with you. Would you like to join the chat?");
       if(confirmation) {
-        socket.current.emit("joinRoom", roomId);
+        socket.current.emit("joinRoom", {roomId, seekerEmail, providerEmail, Skill, Price});
         setRoomId(roomId);
       }
       else

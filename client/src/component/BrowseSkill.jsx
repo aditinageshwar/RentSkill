@@ -9,6 +9,7 @@ import Lottie from 'react-lottie';
 import animationData from "../pointSearch.json";
 import { gsap } from "gsap";
 import { io } from 'socket.io-client';
+import axiosInstance from "../Axios.js";
 
 const BrowseSkill = () => {
   const { providers, setProviders } = useContext(SkillContext);
@@ -18,6 +19,28 @@ const BrowseSkill = () => {
   const [sortOrder, setSortOrder] = useState(""); 
   const [isVisible, setIsVisible] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    profileImg: "",
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/userProfile");
+        if (response.data.message) 
+          alert(response.data.message);
+        else if (response.data.user)
+        setUser(response.data.user);
+      } 
+      catch (error) {
+        alert("Failed to load user data.");
+      }
+    };
+    fetchUserData();
+  }, []);
 
   const filteredProviders = providers.filter((provider) =>
       provider.skill.toLowerCase().includes(searchSkill.toLowerCase()) && provider.isOnline
@@ -110,9 +133,10 @@ const BrowseSkill = () => {
     };
 }, []);
 
-const handleChatClick = (providerId) => {
+const handleChatClick = (providerId, providerEmail, Skill, Price) => {
   const seekerId = socket.current.id; 
-  socket.current.emit('startChat', {providerId, seekerId });
+  const seekerEmail = user.email;
+  socket.current.emit('startChat', {providerId, seekerId, seekerEmail, providerEmail, Skill, Price});
 };
 
 if(socket.current)
@@ -247,7 +271,7 @@ return (
              <div className="flex justify-start gap-6 mt-4">
               <p className="text-xl font-bold">Contact via: </p>
               <HiChatBubbleOvalLeftEllipsis className="text-4xl text-green-600 hover:scale-125 transition-transform -ml-2" 
-                onClick={() => handleChatClick(provider.id)} />
+                onClick={() => handleChatClick(provider.id , provider.email, provider.skill, provider.price)} />
               <BiSolidPhoneCall className="text-4xl text-blue-500 hover:scale-125 transition-transform -ml-2" />
               <IoVideocam className="text-4xl text-yellow-600 hover:scale-125 transition-transform -ml-2" />
             </div>

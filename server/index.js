@@ -12,8 +12,10 @@ const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const multer = require('multer'); 
+const axios = require('axios');
 
 const userRouter = require('./routes/User');                          //get router
+const bookingRouter = require('./routes/Booking');
 
 const {connectMongoDB} = require('./connection');                     //establish connection
 connectMongoDB(process.env.MONGO_URL);
@@ -68,7 +70,7 @@ io.on('connection', (socket) => {
         providerSocketMap[providerId] = socket.id;
     });
 
-    socket.on('startChat', ({providerId, seekerId}) => {
+    socket.on('startChat', ({providerId, seekerId, seekerEmail, providerEmail, Skill, Price}) => {
         if (!providerSocketMap[providerId]) {
             console.log(`Provider with ID ${providerId} is not connected`);
             return;
@@ -77,7 +79,7 @@ io.on('connection', (socket) => {
        socket.join(roomId);                                                           //room created where we are using * to separate providerId and seekerId
     
        const providerSocketId = providerSocketMap[providerId];
-       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId });            //tell provider to join
+       io.to(providerSocketId).emit("joinChatRoom", { roomId, seekerId, seekerEmail, providerEmail, Skill, Price});            //tell provider to join
 
        socket.emit('chatRoomCreated', roomId);                                        //tell seeker to confirm
     });
@@ -86,7 +88,15 @@ io.on('connection', (socket) => {
         io.to(data.seekerId).emit("providerResponse", data.message);
     });
 
-    socket.on('joinRoom', (roomId) => {                                               //provider accept request
+    socket.on('joinRoom', async({roomId, seekerEmail, providerEmail, Skill, Price}) => {                                               //provider accept request and connection established
+
+        const response = await axios.post('http://localhost:8080/api/saveBooking', {
+            seekerEmail,
+            providerEmail,
+            Skill,
+            Price,
+            date : new Date().toLocaleDateString('en-GB'),
+        });
         socket.join(roomId);
     });
 
@@ -108,6 +118,7 @@ io.on('connection', (socket) => {
 });
 
 app.use('/api',userRouter);
+app.use('/api', bookingRouter);
 
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
