@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { FaEdit, FaPaperclip } from "react-icons/fa";
 import { IoSend  } from "react-icons/io5";
-import { MdPeopleAlt } from "react-icons/md";
+import { MdPeopleAlt, MdCallEnd} from "react-icons/md";
 import { gsap } from "gsap";
 import { SkillContext } from './AppContent';
 import axiosInstance from "../Axios.js";
@@ -102,6 +102,8 @@ const PostSkill = () => {
     );
   }, []);
 
+  const [call,setCall] = useState(false);
+  const [seekerId, setSeekerId] = useState(null);
   const [roomId, setRoomId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -147,12 +149,52 @@ const PostSkill = () => {
       setRoomId(null);
     });
 
+    socket.current.on('videoCallOffer', async({offer, seekerId, providerEmail, seekerEmail, Skill, Price }) => { 
+      setCall(true);
+      setSeekerId(seekerId);
+      const peerConnection = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+
+      peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+          socket.current.emit('iceCandidate', { candidate: event.candidate, targetId: seekerId});
+        }
+      };
+
+      peerConnection.ontrack = (event) => {
+        const remoteStream = new MediaStream();
+        remoteStream.addTrack(event.track);
+        document.querySelector("#remoteVideo").srcObject = remoteStream;
+      }; 
+     
+      const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
+      document.querySelector("#localVideo").srcObject = localStream;
+
+      await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+      const answer = await peerConnection.createAnswer(); 
+      await peerConnection.setLocalDescription(answer);
+      socket.current.emit('videoCallAnswer', {answer, seekerId, providerEmail, seekerEmail, Skill, Price });
+
+      socket.current.on('iceCandidate', async(candidate) => {
+        if (peerConnection) {
+          await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        }
+      });
+
+      socket.current.on("endCall", () => {
+        setCall(false);
+        peerConnection.close();
+      });
+    });
+
     return () => {
       socket.current.off("newSkill");
       socket.current.off("joinChatRoom");
       socket.current.off("receiveMessage");
       socket.current.off('receiveFile');
       socket.current.off("UserResponse");
+      socket.current.off('endCall');
+      socket.current.off('videoCallOffer');
     };
 }, [providers]);
 
@@ -181,11 +223,16 @@ const handleLeave = () => {
   setRoomId(null);
 };
 
+const handleEndCall = () => {
+  setCall(false);
+  socket.current.emit("endCall", {targetId: seekerId});
+}
+
 return (
   <div className="bg-gray-50">
-    {roomId && <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md z-40"></div>}
+    {(roomId || call) && (<div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md z-40"></div> )}
   
-    <div className={roomId ? "blur-md" : ""}>
+    <div className={roomId || call ? "blur-md" : ""}>
      <div ref={formRef} className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md">
         <h2 className="text-2xl text-center font-semibold mb-4">Post Your Skills...</h2>
@@ -313,7 +360,22 @@ return (
      </div>
     </div>
 
-     {/* Chat Page */}
+    {/* Video call */}
+    {call && (
+      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-1/2 z-50 bg-gray-50 border-2 border-gray-400">
+        <div className="relative">
+          <video id="remoteVideo" autoPlay className="w-full h-full object-cover"></video>
+          <video id="localVideo" autoPlay muted className="absolute bottom-1 right-1 w-36 h-36 rounded-sm border-2 border-white object-cover"></video>
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+            <button onClick={handleEndCall} className="bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition duration-300">
+              <MdCallEnd size={24} />
+            </button>
+          </div>
+        </div>
+       </div>
+    )}
+
+    {/* Chat Page */}
     {roomId && (
       <div className="chat-modal fixed top-40 left-1/2 transform -translate-x-1/2 w-1/3 z-50 bg-gray-50 border-2 border-gray-400 h-[470px] max-h-[470px] flex flex-col">
         <div className="chat-header p-4 border-b text-2xl text-gray-600 font-semibold bg-red-100 flex items-center">

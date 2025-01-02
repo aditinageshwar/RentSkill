@@ -112,6 +112,32 @@ io.on('connection', (socket) => {
         socket.to(roomId).emit("UserResponse", message);  
     });
 
+    socket.on('videoCallOffer', ({ offer, providerId, seekerId, providerEmail, seekerEmail, Skill, Price }) => {            //video call offer by seeker
+        const providerSocketId = providerSocketMap[providerId];
+        io.to(providerSocketId).emit('videoCallOffer', { offer, seekerId, providerEmail, seekerEmail, Skill, Price });  
+    });
+
+    socket.on('videoCallAnswer', async({ answer, seekerId, providerEmail, seekerEmail, Skill, Price }) => {               //provider answered videoCall
+        io.to(seekerId).emit('videoCallAnswer', answer);
+        const response = await axios.post('http://localhost:8080/api/saveBooking', {
+            seekerEmail,
+            providerEmail,
+            Skill,
+            Price,
+            date : new Date().toLocaleDateString('en-GB'),
+        });
+    });
+
+    socket.on('iceCandidate', ({ candidate, targetId }) => {
+        const targetSocketId = providerSocketMap[targetId] || targetId;
+        io.to(targetSocketId).emit('iceCandidate', candidate);   
+    });
+
+    socket.on('endCall', ({targetId})=> {
+        const targetSocketId = providerSocketMap[targetId] || targetId;
+        io.to(targetSocketId).emit('endCall'); 
+    });
+
     socket.on('disconnect', () => {
         console.log('User disconnected', socket.id);
     });
