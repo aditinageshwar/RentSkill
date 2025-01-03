@@ -16,6 +16,7 @@ const axios = require('axios');
 
 const userRouter = require('./routes/User');                          //get router
 const bookingRouter = require('./routes/Booking');
+const paymentRouter = require('./routes/Payment');
 
 const {connectMongoDB} = require('./connection');                     //establish connection
 connectMongoDB(process.env.MONGO_URL);
@@ -145,6 +146,7 @@ io.on('connection', (socket) => {
 
 app.use('/api',userRouter);
 app.use('/api', bookingRouter);
+app.use('/api', paymentRouter);
 
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

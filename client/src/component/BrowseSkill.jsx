@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import { SkillContext } from './AppContent';
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
-import { BiSolidPhoneCall } from "react-icons/bi";
 import { IoVideocam,IoSend  } from "react-icons/io5";
 import { FaPaperclip } from 'react-icons/fa';
 import { MdPeopleAlt, MdCallEnd } from "react-icons/md";
@@ -10,6 +9,7 @@ import animationData from "../pointSearch.json";
 import { gsap } from "gsap";
 import { io } from 'socket.io-client';
 import axiosInstance from "../Axios.js";
+import UserPayment from "./UserPayment.jsx";
 
 const BrowseSkill = () => {
   const { providers, setProviders } = useContext(SkillContext);
@@ -134,10 +134,23 @@ const BrowseSkill = () => {
     };
 }, []);
 
+const [paymentInitiated, setPaymentInitiated] = useState(false);
+const [paymentDetails, setPaymentDetails] = useState(null);
 const handleChatClick = (providerId, providerEmail, Skill, Price) => {
-  const seekerId = socket.current.id; 
-  const seekerEmail = user.email;
-  socket.current.emit('startChat', {providerId, seekerId, seekerEmail, providerEmail, Skill, Price});
+  const confirmation = window.confirm('You need to make a payment to proceed. Do you want to continue?');
+  if (confirmation) {
+    const seekerId = socket.current.id; 
+    const seekerEmail = user.email;
+    setPaymentDetails({
+      seekerEmail,
+      seekerPhone : user.phone,
+      seekerName : user.name,
+      onPaymentSuccess: () => {
+        socket.current.emit('startChat', {providerId, seekerId, seekerEmail, providerEmail, Skill, Price});
+      },
+    });
+    setPaymentInitiated(true);
+  }
 };
 
 if(socket.current)
@@ -203,49 +216,61 @@ const handleLeave = () => {
 };
 
 const [providerId, setProviderId] = useState(null);
-const handleVideoCall = async(providerId, providerEmail, Skill, Price) =>{
-  setCall(true);
-  setProviderId(providerId);
-  const seekerId = socket.current.id; 
-  const seekerEmail = user.email;
-  const peerConnection = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });        
+const handleVideoCall = async(providerId, providerEmail, Skill, Price) => {
+  const confirmation = window.confirm('You need to make a payment to proceed. Do you want to continue?');
+  if(confirmation) 
+  {
+    setPaymentDetails({
+      seekerEmail: user.email,
+      seekerPhone : user.phone,
+      seekerName : user.name,
+      onPaymentSuccess: async() => {
+        setCall(true);
+        setProviderId(providerId);
+        const seekerId = socket.current.id; 
+        const seekerEmail = user.email;
+        const peerConnection = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });        
 
-  peerConnection.onicecandidate = (event) => {
-    if (event.candidate) {
-      socket.current.emit('iceCandidate', {candidate: event.candidate, targetId: providerId});
-    }
-  };
+        peerConnection.onicecandidate = (event) => {
+         if (event.candidate) {
+          socket.current.emit('iceCandidate', {candidate: event.candidate, targetId: providerId});
+         }
+        };
 
-  peerConnection.ontrack = (event) => {
-    const remoteStream = new MediaStream();
-    remoteStream.addTrack(event.track);
-    document.querySelector("#remoteVideo").srcObject = remoteStream;
-  };
+        peerConnection.ontrack = (event) => {
+          const remoteStream = new MediaStream();
+          remoteStream.addTrack(event.track);
+          document.querySelector("#remoteVideo").srcObject = remoteStream;
+        };
 
-  const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-  localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
-  document.querySelector("#localVideo").srcObject = localStream;
+        const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
+        document.querySelector("#localVideo").srcObject = localStream;
 
-  const offer = await peerConnection.createOffer();                                                          
-  await peerConnection.setLocalDescription(offer);                                                        
-  socket.current.emit('videoCallOffer', {offer, providerId, seekerId, providerEmail, seekerEmail, Skill, Price});
+        const offer = await peerConnection.createOffer();                                                          
+        await peerConnection.setLocalDescription(offer);                                                        
+        socket.current.emit('videoCallOffer', {offer, providerId, seekerId, providerEmail, seekerEmail, Skill, Price});
 
-  socket.current.on('videoCallAnswer', async(answer) => {
-    if (peerConnection) {
-      await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-    }
-  });
+        socket.current.on('videoCallAnswer', async(answer) => {
+          if (peerConnection) {
+           await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+          }
+        });
 
-  socket.current.on('iceCandidate', async (candidate) => {
-    if (peerConnection) {
-      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    }
-  });
+        socket.current.on('iceCandidate', async (candidate) => {
+          if (peerConnection) {
+            await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+          }
+        });
 
-  socket.current.on("endCall", () => {
-    setCall(false);
-    peerConnection.close();
-  });
+        socket.current.on("endCall", () => {
+          setCall(false);
+          peerConnection.close();
+        });
+      },
+    });
+    setPaymentInitiated(true);
+  }
 };
 
 const handleEndCall = () =>{
@@ -322,6 +347,15 @@ return (
 
              <div className="flex justify-start gap-6 mt-4">
               <p className="text-xl font-bold">Contact via Chat/Call: </p>
+              {paymentInitiated && paymentDetails && (
+                <UserPayment
+                  amount={provider.price}
+                  seekerEmail={paymentDetails.seekerEmail}
+                  seekerPhone={paymentDetails.seekerPhone}
+                  seekerName={paymentDetails.seekerName}
+                  onPaymentSuccess={paymentDetails.onPaymentSuccess}
+                />
+              )}
               <HiChatBubbleOvalLeftEllipsis className="text-4xl text-green-600 hover:scale-125 transition-transform -ml-2" 
                 onClick={() => handleChatClick(provider.id , provider.email, provider.skill, provider.price)} />
               <IoVideocam className="text-4xl text-yellow-600 hover:scale-125 transition-transform -ml-2" 
