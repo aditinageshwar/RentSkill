@@ -21,7 +21,7 @@ const HowItWorks = () => {
     },
     {
       title: 'CONVERSATION',
-      description: 'Connect instantly via live chat, video, or audio calls to discuss your skill rental needs!',
+      description: 'Connect instantly via live chat or video calls to discuss your skill rental needs!',
       image: image3,
     },
   ];

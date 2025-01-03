@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { FaEdit } from "react-icons/fa";
 import {ImCross } from "react-icons/im";
 import { gsap } from "gsap";
 import axiosInstance from "../Axios.js";
 
 const UserProfile = ({onClose}) => {
+  const alertShown = useRef(false); 
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -64,7 +65,11 @@ const UserProfile = ({onClose}) => {
         setUser(response.data.user);
       } 
       catch (error) {
-        alert("Failed to load user data.");
+        if (!alertShown.current) {
+          alert("Failed to load user data.");
+          alertShown.current = true; 
+        }
+        handleCloseProfile();
       }
     };
     fetchUserData();

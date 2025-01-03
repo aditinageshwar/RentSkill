@@ -48,26 +48,21 @@ export default function HeroSection() {
           </button>
         </div>
 
-        {/* Search Bar Section */}
         <div className="hero-box mt-10 flex flex-col md:flex-row items-center bg-white rounded-md p-4 shadow-lg w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-6">
           <input
             type="text"
             placeholder="Enter Keyword"
             className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
-          <select
-            className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
-          >
-            <option value="" selected disabled hidden> Choose Categories </option>
+          <select defaultValue="Choose Categories" className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50">
+            <option value="Choose Categories" hidden> Choose Categories </option>
             <option>Category 1</option>
             <option>Category 2</option>
             <option>Category 3</option>
           </select>
 
-          <select
-            className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50"
-          >
-            <option value="" selected disabled hidden> Choose Location </option>
+          <select defaultValue="Choose Location" className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50">
+            <option value="Choose Location" hidden> Choose Location </option>
             <option>Location 1</option>
             <option>Location 2</option>
             <option>Location 3</option>

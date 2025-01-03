@@ -144,11 +144,12 @@ function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button className="hidden md:block text-md hover:text-orange-500 mr-5 login-heading" onClick={handleClick}> {isLoggedIn ? 'Logout' : 'Login'} </button>
-
+          <button className="hidden md:block text-md hover:text-orange-500 mr-10 login-heading" onClick={handleClick}> 
+            {isLoggedIn ? 'Logout' : 'Login'} 
+          </button>
           <div className="relative">
             <FaUserCircle
-              className="mt-[-15px] absolute text-3xl cursor-pointer hover:text-orange-500 left-25 account-icon"
+              className="mt-[-15px] absolute text-3xl cursor-pointer hover:text-orange-500 right-1 account-icon"
               onClick={handleOpenProfile}
             />
           </div>

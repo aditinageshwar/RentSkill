@@ -177,7 +177,7 @@ const Categories = () => {
       <div className="flex items-center justify-center mb-8 relative">
         <h2 className="text-2xl font-bold text-center">Popular Categories</h2>
 
-        <button className="absolute right-0 px-4 py-2 border border-black rounded-md text-black hover:bg-gray-100 flex items-center space-x-2">
+        <button className="absolute right-[-96px] px-4 py-2 border border-black rounded-md text-black hover:bg-gray-100 flex items-center space-x-2">
           <span className="text-lg">View All</span> 
           <span className="text-lg font-bold">{'\u203A'}</span>
         </button>
@@ -207,9 +207,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
-    </div>
-
-    
+    </div> 
   );
 };
 
