@@ -1,11 +1,12 @@
 <h1>Skill Rental Platform</h1>
-This project enables users to rent skills by connecting with others for real-time chat, audio, and video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
+![React](https://img.shields.io/badge/Frontend-React-blue)  ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)  ![Express.js](https://img.shields.io/badge/Backend-Express.js-yellowgreen)
+This project enables users to rent skills by connecting with others for real-time chat or video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
 
 <h2>Features</h2>
 
-**Real-Time Chat**: Communicate seamlessly with others in real-time through text chat.
+**Real-Time Chat**: Communicate seamlessly in real-time through text chat and enhance interactions with effortless file sharing for documents, images, and other media.  
 
-**Audio & Video Calls**: Engage in high-quality audio and video calls with other users.
+**Video Calls**: Engage in high-quality video calls with other users.
 
 **Payment Integration**: Users are charged based on the time spent interacting, ensuring a fair and flexible payment system.
 
@@ -23,8 +24,10 @@ This project enables users to rent skills by connecting with others for real-tim
 
 **Database**: MongoDB
 
-**Real-Time Communication**: WebSockets
+**Real-Time Chat**: Socket.IO
 
-**Payment System**: Razaorpay
+**Real-time Video Calls**: WebRTC
+
+**Payment Integration**: Razorpay
 
 **Email Verification**: Nodemailer
