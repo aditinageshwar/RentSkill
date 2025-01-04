@@ -45,7 +45,10 @@ function Navbar() {
   }
   
   const handleNotification = () =>{
+    if(isLoggedIn)
     navigateTo('/notification')
+    else
+    alert("First, kindly log in to access this feature.");
   }
 
   const handleContactUs = () => {

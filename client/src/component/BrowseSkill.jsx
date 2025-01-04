@@ -291,7 +291,7 @@ return (
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
-          <option value="" selected disabled hidden>Sort By</option>
+          <option value="" hidden>Sort By</option>
           <option className="bg-gray-200 text-black" value="lowToHigh">Price: Low to High</option>
           <option className="bg-gray-100 text-black" value="highToLow">Price: High to Low</option>
          </select>

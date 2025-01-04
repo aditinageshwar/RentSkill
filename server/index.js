@@ -17,6 +17,7 @@ const axios = require('axios');
 const userRouter = require('./routes/User');                          //get router
 const bookingRouter = require('./routes/Booking');
 const paymentRouter = require('./routes/Payment');
+const notificationRouter = require('./routes/Notification');
 
 const {connectMongoDB} = require('./connection');                     //establish connection
 connectMongoDB(process.env.MONGO_URL);
@@ -28,7 +29,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173',                                   // Frontend URL
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
@@ -91,13 +92,21 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', async({roomId, seekerEmail, providerEmail, Skill, Price}) => {     //provider accept request and connection established
 
-        const response = await axios.post('http://localhost:8080/api/saveBooking', {
+        const bookingResponse = await axios.post('http://localhost:8080/api/saveBooking', {
             seekerEmail,
             providerEmail,
             Skill,
             Price,
             date : new Date().toLocaleDateString('en-GB'),
         });
+
+        const notificationResponse = await axios.post('http://localhost:8080/api/notification', {
+            notifications: [
+             { email: providerEmail, message: `Great job! You've earned ₹ ${Price} for your ${Skill} skill through chat.`},
+             { email: seekerEmail, message: `You Paid ₹ ${Price} for the ${Skill} skill you received through chat.`},
+            ]
+        });
+
         socket.join(roomId);
     });
 
@@ -120,12 +129,19 @@ io.on('connection', (socket) => {
 
     socket.on('videoCallAnswer', async({ answer, seekerId, providerEmail, seekerEmail, Skill, Price }) => {               //provider answered videoCall
         io.to(seekerId).emit('videoCallAnswer', answer);
-        const response = await axios.post('http://localhost:8080/api/saveBooking', {
+        const bookingResponse = await axios.post('http://localhost:8080/api/saveBooking', {
             seekerEmail,
             providerEmail,
             Skill,
             Price,
             date : new Date().toLocaleDateString('en-GB'),
+        });
+
+        const notificationResponse = await axios.post('http://localhost:8080/api/notification', {
+            notifications: [
+             { email: providerEmail, message: `Great job! You've earned ₹ ${Price} for your ${Skill} skill through video call.`},
+             { email: seekerEmail, message: `You Paid ₹ ${Price} for the ${Skill} skill you received through video call.`},
+            ]
         });
     });
 
@@ -147,6 +163,7 @@ io.on('connection', (socket) => {
 app.use('/api',userRouter);
 app.use('/api', bookingRouter);
 app.use('/api', paymentRouter);
+app.use('/api', notificationRouter);
 
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);

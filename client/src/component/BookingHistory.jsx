@@ -115,7 +115,7 @@ export default function BookingHistory()
               )}
               <tbody>
                 {browseData.map((browse,index) => (
-                  <tr key={browse.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
                     <td className="px-4 py-2">{browse.Skill}</td>
                     <td className="px-4 py-2">Rs. {browse.Price}</td>
                     <td className="px-4 py-2">{browse.date}</td>
@@ -155,7 +155,7 @@ export default function BookingHistory()
               )}
               <tbody>
                 {postData.map((post,index) => (
-                  <tr key={post.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
                     <td className="px-4 py-2">{post.Skill}</td>
                     <td className="px-4 py-2">Rs. {post.Price}</td>
                     <td className="px-4 py-2">{post.date}</td>
@@ -179,8 +179,3 @@ export default function BookingHistory()
     </div>
   );
 }
-
-
-
-
-

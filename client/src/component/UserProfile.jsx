@@ -41,6 +41,12 @@ const UserProfile = ({onClose}) => {
       if (response.data.success) {
         alert("Profile updated successfully!");
         setUser(response.data.user);
+
+        await axiosInstance.post('/api/notification', {
+          notifications: [
+            { email: response.data.user.email, message: "You had successfully updated your profile!"},
+          ]
+        });
       } 
       else {
         alert("Failed to update profile.");
