@@ -1,25 +1,24 @@
-<h1>Skill Rental Platform</h1>
-![React](https://img.shields.io/badge/Frontend-React-blue)  
-![Node.js](https://img.shields.io/badge/Backend-Node.js-green)  
-![Express.js](https://img.shields.io/badge/Backend-Express.js-yellowgreen)
+<h1><img src="image.png" height="35px" style="margin-bottom : -10px" /> Skill Rental Platform</h1>
+
+![React](https://img.shields.io/badge/Frontend-React-blue) &nbsp; ![Node.js](https://img.shields.io/badge/Backend-Node.js-yellowgreen) &nbsp; ![Express.js](https://img.shields.io/badge/Backend-Express.js-orange) &nbsp; ![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
 
 This project enables users to rent skills by connecting with others for real-time chat or video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
 
-<h2>Features</h2>
+<h2>🚀Features</h2>
 
-**Real-Time Chat**: Communicate seamlessly in real-time through text chat and enhance interactions with effortless file sharing for documents, images, and other media.  
+**• Real-Time Chat** : Communicate seamlessly in real-time through text chat and enhance interactions with effortless file sharing for documents, images, and other media.  
 
-**Video Calls**: Engage in high-quality video calls with other users.
+**• Video Calls** : Engage in high-quality video calls with other users.
 
-**Payment Integration**: Users are charged based on the time spent interacting, ensuring a fair and flexible payment system.
+**• Payment Integration** : Users are charged based on the time spent interacting, ensuring a fair and flexible payment system.
 
-**User Profiles**: Create and manage personal profiles showcasing your skills and availability.
+**• User Profiles** : Create and manage personal profiles showcasing your skills and availability.
 
-**Booking System**: Schedule sessions with users offering specific skills.
+**• Booking System** : Schedule sessions with users offering specific skills.
 
-**Email Verification**: Secure registration with email verification, ensuring that users can activate their accounts before accessing platform features.
+**• Email Verification** : Secure registration with email verification, ensuring that users can activate their accounts before accessing platform features.
 
-<h2>Technologies Used</h2>
+<h2>📒Technologies Used</h2>
 
 **Frontend**: React
 
@@ -34,3 +33,25 @@ This project enables users to rent skills by connecting with others for real-tim
 **Payment Integration**: Razorpay
 
 **Email Verification**: Nodemailer
+
+<h2>📌 Installation</h2>
+A Step-by-step guide to installing and setting up the project locally.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/RentSkill.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the project:
+   ```bash
+   npm start
+   ```
+<h2>💠Usage</h2>
+After running the project, go to `http://localhost:5173` to access the application.
+
+<h2>📧 Contact</h2>
+
+**Email** : aditinageshwar7@gmail.com
