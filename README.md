@@ -1,4 +1,4 @@
-<h1><img src="image.png" height="35px" style="margin-bottom : -10px" /> Skill Rental Platform</h1>
+<h1><img src="image.png" height="35px" style="margin-bottom : -20px" /> SkillHub: The Skill Rental Platform</h1>
 
 ![React](https://img.shields.io/badge/Frontend-React-blue) &nbsp; ![Node.js](https://img.shields.io/badge/Backend-Node.js-yellowgreen) &nbsp; ![Express.js](https://img.shields.io/badge/Backend-Express.js-orange) &nbsp; ![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
 
