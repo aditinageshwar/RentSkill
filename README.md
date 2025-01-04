@@ -1,5 +1,8 @@
 <h1>Skill Rental Platform</h1>
-![React](https://img.shields.io/badge/Frontend-React-blue)  ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)  ![Express.js](https://img.shields.io/badge/Backend-Express.js-yellowgreen)
+![React](https://img.shields.io/badge/Frontend-React-blue)  
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green)  
+![Express.js](https://img.shields.io/badge/Backend-Express.js-yellowgreen)
+
 This project enables users to rent skills by connecting with others for real-time chat or video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
 
 <h2>Features</h2>
