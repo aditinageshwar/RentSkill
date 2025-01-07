@@ -110,7 +110,7 @@ const VerificationModal = ({handleVerify }) => {
         </button>
 
         {/* update with you email value */}
-        <p className="text-center text-gray-600 mb-3">Enter the confirmation code you received in your email: aditinageshwar7@gmail.com</p>  
+        <p className="text-center text-gray-600 mb-3">Enter the confirmation code you received in your email</p>  
 
         <div className="flex justify-center gap-2 mb-6">
           {otp.map((_, index) => (
