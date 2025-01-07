@@ -4,18 +4,20 @@ import aboutUs from '../assets/aboutUs.jpg';
 import { HiUsers } from "react-icons/hi";
 import { FaHeadset, FaRegLightbulb, FaComments } from 'react-icons/fa';
 import { FaFacebook, FaSquareInstagram, FaLinkedin } from "react-icons/fa6";
+import Aditi from "../assets/Aditi.jpg";
+import Priyanka from "../assets/Priyanka.jpg";
 
 const teamMembers = [
   {
     name: 'Aditi Nageshwar',
     email: 'aditinageshwar7@gmail.com',
-    image: 'https://img.freepik.com/free-photo/brunette-business-woman-with-wavy-long-hair-blue-eyes-stands-holding-notebook-hands_197531-343.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid',
+    image: Aditi,
     social: 'https://www.linkedin.com/in/aditinageshwar', 
   },
   {
     name: 'Priyanka Kumari',
     email: 'priyankakumari22265@gmail.com',
-    image: 'https://img.freepik.com/free-photo/businesswoman-posing_23-2148142829.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid',
+    image: Priyanka,
     social: 'https://www.linkedin.com/in/priyanka-kumari-5853a0201', 
   }
 ];
