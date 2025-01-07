@@ -303,7 +303,7 @@ return (
              placeholder="Enter Price/Hour"
              className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1"
              value={price}
-             onChange={(e) => setPrice(e.target.value)}
+             onChange={(e) => { if(Number(e.target.value) > 0) setPrice(e.target.value); }}
              required
             />
   
