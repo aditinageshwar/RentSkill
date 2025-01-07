@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-const express = require("express");
-const { signup, login ,updateProfile } = require("../controllers/user");
-const upload = require("../middlewares/upload"); // Multer middleware
-const router = express.Router();
-
-// Register (Sign Up)
-router.post("/signup", signup);
-
-// Login
-router.post("/login", login);
-
-router.post("/signup", upload.single("profileImage"), signup);
-
-
-
-module.exports = router;
-=======
 const express = require('express');
 const router = express.Router();
 
@@ -45,4 +27,3 @@ router.get('/userProfile', handleProfile);
 router.put("/updateProfile", upload.single('profileImg'), handleUpdateProfile);
 
 module.exports = router;
->>>>>>> 480e32edc6507e83264659b85cee384418d337bd
