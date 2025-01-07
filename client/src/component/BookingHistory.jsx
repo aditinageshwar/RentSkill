@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import axiosInstance from "../Axios.js";
 
 export default function BookingHistory() 
 {
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    profileImg: "",
+  });
+
   const [browseData, setBrowseData] = useState([]); 
   const [postData, setPostData] = useState([]); 
 
@@ -12,65 +20,40 @@ export default function BookingHistory()
   const postRef = useRef(null); 
 
   useEffect(() => {
-    const browseSkills = [
-      {
-        id: 1,
-        skill: "Cooking",
-        price: 200,
-        date: "2024-06-10",
-      },
-      {
-        id: 2,
-        skill: "Drawing",
-        price: 300,
-        date: "2024-06-12",
-      },
-      {
-        id: 3,
-        skill: "Art Design",
-        price: 150,
-        date: "2024-06-14",
-      },
-    ];
+    const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/userProfile");
+        if (response.data.message) 
+          alert(response.data.message);
+        else if (response.data.user)
+        { 
+          const userData = response.data.user;
+          setUser(userData);
+          const bookingResponse = await axiosInstance.get(`/api/bookingHistory?email=${userData.email}`);
+          if(bookingResponse.data)
+          {
+            setBrowseData(bookingResponse.data.browseData);
+            setPostData(bookingResponse.data.postData);
+          }
+        }
+      } 
+      catch (error) {
+        alert("Failed to load user data.");
+      }
+    };  
+    fetchUserData();
 
-    const postSkills = [
-      {
-        id: 1,
-        skill: "Photography",
-        price: 500,
-        date: "2024-06-11",
-      },
-      {
-        id: 2,
-        skill: "Teaching",
-        price: 800,
-        date: "2024-06-13",
-      },
-      {
-        id: 3,
-        skill: "Web Development",
-        price: 1000,
-        date: "2024-06-15",
-      },
-    ];
-    setBrowseData(browseSkills);
-    setPostData(postSkills);
-
-    
     gsap.fromTo(
       sidebarRef.current,
       { y: 200, opacity: 0 },
       { y: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
     );
-
     gsap.fromTo(
       headingRef.current,
       { x: -200, opacity: 0 },
       { x: 0, opacity: 1, duration: 1.5, ease: "power2.out" }
     );
-  }, []);
 
-  useEffect(() => {
     gsap.set([browseRef.current, postRef.current], {
       opacity: 0,
       scale: 0.5,
@@ -99,23 +82,23 @@ export default function BookingHistory()
       >
         <div className="p-6 text-center">
           <img
-            src="https://i.pinimg.com/736x/8a/55/99/8a5599792c0d7b0a02377b97fafe76a9.jpg"
+            src={user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
             alt="Profile"
-            className="rounded-full mx-auto mb-4 h-50"
+            className="w-48 h-48 rounded-full object-cover mx-auto mt-8 mb-4 border-2 border-gray-300"
           />
-          <h2 className="text-lg font-bold">Priyanka</h2>
-          <p className="text-sm text-gray-500">Priyanka@gmail.com</p>
-          <p className="text-sm text-gray-500">+91 6789065234</p>
+          <h2 className="text-2xl font-bold"> {user.name} </h2>
+          <p className="text-md text-gray-500"> {user.email} </p>
+          <p className="text-md text-gray-500"> {user.phone} </p>
         </div>
       </div>
 
       <div className="w-3/4 p-8">
-        <h1 ref={headingRef} className="text-2xl font-semibold mb-7">
+        <h1 ref={headingRef} className="text-2xl font-semibold mb-7 mt-[-10px]">
           Booking History
         </h1>
 
         {/* Browse Skills Table */}
-        <div ref={browseRef} className="mb-8">
+        <div ref={browseRef} className="mb-12">
           <h2 className="text-xl font-semibold mb-4 flex flex-col items-center">
             Browse Details
           </h2>
@@ -132,9 +115,9 @@ export default function BookingHistory()
               )}
               <tbody>
                 {browseData.map((browse,index) => (
-                  <tr key={browse.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
-                    <td className="px-4 py-2">{browse.skill}</td>
-                    <td className="px-4 py-2">Rs. {browse.price}</td>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
+                    <td className="px-4 py-2">{browse.Skill}</td>
+                    <td className="px-4 py-2">Rs. {browse.Price}</td>
                     <td className="px-4 py-2">{browse.date}</td>
                   </tr>
                 ))}
@@ -172,9 +155,9 @@ export default function BookingHistory()
               )}
               <tbody>
                 {postData.map((post,index) => (
-                  <tr key={post.id} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
-                    <td className="px-4 py-2">{post.skill}</td>
-                    <td className="px-4 py-2">Rs. {post.price}</td>
+                  <tr key={index} className={`${index % 2 === 0 ? "bg-teal-50": "bg-violet-50"} hover:bg-slate-200`}>
+                    <td className="px-4 py-2">{post.Skill}</td>
+                    <td className="px-4 py-2">Rs. {post.Price}</td>
                     <td className="px-4 py-2">{post.date}</td>
                   </tr>
                 ))}
@@ -196,8 +179,3 @@ export default function BookingHistory()
     </div>
   );
 }
-
-
-
-
-

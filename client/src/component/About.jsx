@@ -8,13 +8,15 @@ import { FaFacebook, FaSquareInstagram, FaLinkedin } from "react-icons/fa6";
 const teamMembers = [
   {
     name: 'Aditi Nageshwar',
-    email: 'aditinagesh@gmail.com',
+    email: 'aditinageshwar7@gmail.com',
     image: 'https://img.freepik.com/free-photo/brunette-business-woman-with-wavy-long-hair-blue-eyes-stands-holding-notebook-hands_197531-343.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid',
+    social: 'https://www.linkedin.com/in/aditinageshwar', 
   },
   {
     name: 'Priyanka Kumari',
-    email: 'priyankakumari@gmail.com',
+    email: 'priyankakumari22265@gmail.com',
     image: 'https://img.freepik.com/free-photo/businesswoman-posing_23-2148142829.jpg?ga=GA1.1.209205123.1699593011&semt=ais_hybrid',
+    social: 'https://www.linkedin.com/in/priyanka-kumari-5853a0201', 
   }
 ];
 
@@ -128,7 +130,7 @@ const AboutUs = () => {
                   <a href='#' target="_blank" rel="noopener noreferrer">
                    <FaSquareInstagram className="text-4xl text-rose-700 hover:text-pink-800"/>
                   </a>
-                  <a href='#' target="_blank" rel="noopener noreferrer">
+                  <a href={member.social} target="_blank" rel="noopener noreferrer">
                     <FaLinkedin className="text-4xl text-sky-900 hover:text-blue-800"/>
                   </a>
                 </div>

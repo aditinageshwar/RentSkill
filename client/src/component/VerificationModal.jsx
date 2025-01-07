@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoIosMailOpen } from "react-icons/io";
+import axiosInstance from "../Axios.js";
 
 const VerificationModal = ({handleVerify }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -7,26 +8,78 @@ const VerificationModal = ({handleVerify }) => {
 
   const handleChange = (e, index) => {
     const value = e.target.value;
+    if (/[^0-9]/.test(value)) 
+      return; 
 
-    if (/^[0-9]*$/.test(value)) {
-      const newOtp = [...otp];
-      newOtp[index] = value.slice(-1); 
-      setOtp(newOtp);
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
 
-      if (value && index < 5) {
-        inputRefs.current[index + 1]?.focus();
-      }
+    if (index < otp.length - 1 && value) {
+      inputRefs.current[index + 1].focus();
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+    if (e.key === "Backspace" && !otp[index]) {
+      if (index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
     }
   };
 
-  const OnVerify = () => {
-    handleVerify();
+  const emailRef = useRef(); 
+  const handleSendCode = async (e) =>{
+    e.preventDefault();
+    const email = emailRef.current.value;
+    try 
+    {
+      const response = await axiosInstance.post('/api/send', {email}, { withCredentials: true });               //OTP sent to email
+      alert(response.data.message);
+    } 
+    catch (error) 
+    {
+      if (error.response && error.response.data && error.response.data.message) 
+        alert(error.response.data.message); 
+      else 
+        alert("An unexpected error occurred"); 
+    }
+  };
+
+  const OnVerify = async(e) => {
+    e.preventDefault();
+    const otpCode = otp.join("");
+    if (otpCode.length < 6) {
+      alert("Please enter the complete OTP.");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("/api/verify", { otp: otpCode }, { withCredentials: true });      //Verify OTP
+      alert(response.data.message);
+      handleVerify();
+    }
+    catch (error) 
+    {
+      if (error.response && error.response.data && error.response.data.message) 
+        alert(error.response.data.message); 
+      else 
+        alert("An unexpected error occurred"); 
+    }
+  };
+
+  const handleResend = async () => {
+    try
+    {
+      const response = await axiosInstance.post('/api/resend', { withCredentials: true });                                                //Again Sent OTP
+      alert(response.data.message);
+    } 
+    catch (error) 
+    {
+      if (error.response && error.response.data && error.response.data.message) 
+        alert(error.response.data.message); 
+      else 
+        alert("An unexpected error occurred"); 
+    }
   };
   
   return (
@@ -42,14 +95,16 @@ const VerificationModal = ({handleVerify }) => {
         </p>
         <span className="absolute right-0 text-red-500 text-xl mr-2">*</span>    
         <input
+            ref={emailRef}
             type="email"
             placeholder="Email"
+            name="email"
             required
             className="w-full mr-2 px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
         />
         <button 
-           className="w-96 bg-sky-600 text-white text-sm py-2 px-1 mb-3 rounded-md hover:bg-sky-700 transition"
-           //onClick={handleSendCode}
+           className="w-96 bg-sky-600 text-white text-sm py-2 px-1 mb-3 rounded-md hover:bg-sky-700 transition "
+           onClick={handleSendCode}
         >
            Send Code
         </button>
@@ -81,7 +136,7 @@ const VerificationModal = ({handleVerify }) => {
         <div className="text-center text-gray-600 mb-4">
             Didn't receive an email?{" "}
             <button
-              // onClick={handleResend}
+              onClick={handleResend}
               className="text-sky-700 font-semibold hover:underline"
             >
               Resend

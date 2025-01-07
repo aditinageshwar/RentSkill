@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginImg from "../assets/login.png";
 import { gsap } from "gsap";
 import VerificationModal from "./VerificationModal.jsx"; 
+import axiosInstance from "../Axios.js";
 
 function Login() {
+  const navigateTo = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [isPasswordVisible2, setIsPasswordVisible2] = useState(false);
@@ -24,6 +27,10 @@ function Login() {
   const handleVerify = () => {
     setIsEmailVerified(true);
   };
+
+  const handleForgot = () =>{
+    navigateTo('/ForgotPassword');
+  }
 
   const handleToggle = () => {
     const tl = gsap.timeline();
@@ -54,6 +61,55 @@ function Login() {
     );
   }, [isLogin]);
 
+  const loginDataRef = useRef(null);
+  const handleLogin = async (e) =>{
+    e.preventDefault();
+    const formData = new FormData(loginDataRef.current);
+    try 
+    {
+      const response = await axiosInstance.post('/api/login', formData);
+      alert(response.data.message);
+      e.target.reset(); 
+      window.location.href = '/'; 
+    } 
+    catch (error) 
+    {
+      if (error.response && error.response.data && error.response.data.message) 
+        alert(error.response.data.message); 
+      else 
+        alert("An unexpected error occurred"); 
+    }
+  };
+
+  const signupDataRef = useRef(null);
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(signupDataRef.current);
+  
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirmPassword');
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password fields do not match!");
+      return;
+    }
+
+    try 
+    {
+      const response = await axiosInstance.post('/api/signup', formData , { headers: {'Content-Type': 'multipart/form-data' } });
+      alert(response.data.message);
+      e.target.reset(); 
+      window.location.href = '/'; 
+    } 
+    catch (error) 
+    {
+      if (error.response && error.response.data && error.response.data.message) 
+        alert(error.response.data.message); 
+      else 
+        alert("An unexpected error occurred"); 
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="relative w-full bg-gray-100 max-w-5xl h-[600px] flex items-center justify-center shadow-2xl" ref={containerRef}>
@@ -75,12 +131,13 @@ function Login() {
 
         {/* Login Form */}
         {isLogin && (
-          <form className="space-y-1 h-[300px]">
+          <form className="space-y-1 h-[300px]" onSubmit={handleLogin} ref={loginDataRef}>
             <div>
               <input
                 type="email"
                 placeholder="Email"
                 required
+                name="email"
                 className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4 mt-4"
               />
             </div>
@@ -90,6 +147,7 @@ function Login() {
                 type={isPasswordVisible1 ? "text" : "password"}
                 placeholder="Password"
                 required
+                name="password"
                 className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1"
               />
              <button
@@ -101,7 +159,7 @@ function Login() {
              </button>
             </div>
             
-            <p className="text-sm text-blue-500">Forgot Password?</p>
+            <button className="text-sm text-blue-500" onClick={handleForgot}>Forgot Password?</button>
             <button
               type="submit"
               className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-700 transition !mt-8"
@@ -122,7 +180,7 @@ function Login() {
 
         {/* Signup Form */}
         {!isLogin && (
-          <form className="space-y-2">
+          <form className="space-y-2" onSubmit={handleSignup} ref={signupDataRef} encType="multipart/form-data">
             {!isEmailVerified ? (
               <VerificationModal handleVerify={handleVerify} />
             ) : (
@@ -133,6 +191,7 @@ function Login() {
                   type="text"
                   placeholder="Name"
                   required
+                  name="name"
                   className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
                 />
               </div>
@@ -144,6 +203,7 @@ function Login() {
                   placeholder="Phone number"
                   pattern="[0-9]{10}"
                   required
+                  name="phone"
                   className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
                 />
               </div>
@@ -153,6 +213,7 @@ function Login() {
                  type={isPasswordVisible1 ? "text" : "password"}
                  placeholder="Password"
                  required
+                 name="password"
                  className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
                 />
                 <button
@@ -169,6 +230,7 @@ function Login() {
                   type={isPasswordVisible2 ? "text" : "password"}
                   placeholder="Confirm Password"
                   required
+                  name="confirmPassword"
                   className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
                 />
                 <button
@@ -191,6 +253,7 @@ function Login() {
                  id="photoInput"
                  type="file"
                  required
+                 name="profileImg"
                  className="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus: mb-4"
                />
               </div>  

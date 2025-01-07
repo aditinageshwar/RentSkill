@@ -4,39 +4,69 @@ import gsap from "gsap";
 import logo from "../assets/logo.png"; 
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
+import Cookies from 'js-cookie';
 
 function Navbar() {
   const navigateTo = useNavigate();
   const [showProfile, setShowProfile] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleClick = () => {
-    navigateTo('/login'); 
+  useEffect(() => {
+    const token = Cookies.get('uid');
+    if (token) 
+      setIsLoggedIn(true); 
+  }, []);
+
+  const handleClick = () => { 
+    if (isLoggedIn)
+    {  
+      const confirmLogout = window.confirm("You are about to log out. Are you sure?");
+      if (confirmLogout) 
+      {
+        Cookies.remove('uid');
+        setIsLoggedIn(false);
+      }
+    } 
+    else 
+    {
+      navigateTo('/login');
+    }
   };
 
   const handleMyBooking=()=>{
+    if(isLoggedIn)
     navigateTo('/bookingTable')
-
+    else
+    alert("First, kindly log in to access this feature."); 
   }
 
   const handleAbout = () => {
     navigateTo('/aboutUs');
   }
-
+  
   const handleNotification = () =>{
+    if(isLoggedIn)
     navigateTo('/notification')
+    else
+    alert("First, kindly log in to access this feature.");
   }
-
 
   const handleContactUs = () => {
     navigateTo('/ContactUs');
   };
 
   const handleBrowseSkill = () => {
+    if(isLoggedIn)
     navigateTo('/browseSkill');
+    else
+    alert("First, kindly log in to access this feature."); 
   };
   
   const handlePostSkill = () => {
+    if(isLoggedIn)
     navigateTo('/postSkill');
+    else
+    alert("First, kindly log in to access this feature."); 
   };
   
   const handleOpenProfile = () => {
@@ -117,11 +147,12 @@ function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button className="hidden md:block text-md hover:text-orange-500 mr-5 login-heading" onClick={handleClick}>Login</button>
-
+          <button className="hidden md:block text-md hover:text-orange-500 mr-10 login-heading" onClick={handleClick}> 
+            {isLoggedIn ? 'Logout' : 'Login'} 
+          </button>
           <div className="relative">
             <FaUserCircle
-              className="mt-[-15px] absolute text-3xl cursor-pointer hover:text-orange-500 left-25 account-icon"
+              className="mt-[-15px] absolute text-3xl cursor-pointer hover:text-orange-500 right-1 account-icon"
               onClick={handleOpenProfile}
             />
           </div>

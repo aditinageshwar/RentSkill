@@ -17,8 +17,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        
-
           {/* Shop Section */}
           <div className="flex flex-col ml-20">
           <h2 className="text-3xl font-semibold mb-4">Shop</h2>
@@ -56,10 +54,8 @@ const Footer = () => {
             </a>
           </div>
         </div>
-
       
       </div>
-
       <div className="text-center mt-8 text-sm text-gray-400">
         <p>&copy; 2024 SKILLHUB.com All Rights Reserved.</p>
       </div>
