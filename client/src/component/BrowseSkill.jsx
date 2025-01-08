@@ -157,6 +157,7 @@ if(socket.current)
 {
   socket.current.on('chatRoomCreated', (roomId) => {
     setRoomId(roomId);
+    setPaymentInitiated(false);
   });
 }
 
@@ -266,6 +267,7 @@ const handleVideoCall = async(providerId, providerEmail, Skill, Price) => {
         socket.current.on("endCall", () => {
           setCall(false);
           peerConnection.close();
+          setPaymentInitiated(false); 
         });
       },
     });
@@ -275,7 +277,8 @@ const handleVideoCall = async(providerId, providerEmail, Skill, Price) => {
 
 const handleEndCall = () =>{
   setCall(false);
-  socket.current.emit("endCall", {targetId: providerId});  
+  socket.current.emit("endCall", {targetId: providerId}); 
+  setPaymentInitiated(false); 
 };
 
 return (
