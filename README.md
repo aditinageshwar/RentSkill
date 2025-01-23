@@ -4,10 +4,6 @@
 
 This project enables users to rent skills by connecting with others for real-time chat or video calls. The platform allows individuals to share their expertise, providing a convenient way to interact and learn from others.
 
-<video width="100%" height="auto" controls>
-  <source src="Project_SkillHub.mp4">
-</video>
-
 <h2>🚀Features</h2>
 
 **• Real-Time Chat** : Communicate seamlessly in real-time through text chat and enhance interactions with effortless file sharing for documents, images, and other media.  
@@ -39,10 +35,6 @@ This project enables users to rent skills by connecting with others for real-tim
 **Payment Integration**: Razorpay
 
 **Email Verification**: Nodemailer
-
-<h2>🌐 Live Demo</h2>
-
-Check out the live website here: <a href="https://yourskillhubwebsite.com"> https://yourskillhubwebsite.com </a>
 
 <h2>📌 Installation</h2>
 A Step-by-step guide to installing and setting up the project locally.
