@@ -56,16 +56,32 @@ export default function HeroSection() {
           />
           <select defaultValue="Choose Categories" className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50">
             <option value="Choose Categories" hidden> Choose Categories </option>
-            <option>Category 1</option>
-            <option>Category 2</option>
-            <option>Category 3</option>
+            <option>DIY Repairs</option>
+            <option>Gardening</option>
+            <option>Pet Care</option>
+            <option>Home Improvement</option>
+            <option>Study Assistance</option>
+            <option>Creative Arts & Crafts</option>
+            <option>Health & Wellness</option>
+            <option>Cooking & Baking</option>
           </select>
 
           <select defaultValue="Choose Location" className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 text-black opacity-50">
             <option value="Choose Location" hidden> Choose Location </option>
-            <option>Location 1</option>
-            <option>Location 2</option>
-            <option>Location 3</option>
+            <option>Ahmedabad</option>
+            <option>Bangalore</option>
+            <option>Bhopal</option>
+            <option>Chennai</option>
+            <option>Hyderabad</option>
+            <option>Indore</option>
+            <option>Jaipur</option>
+            <option>Kolkata</option>
+            <option>Lucknow</option>
+            <option>Mumbai</option>
+            <option>New Delhi</option>
+            <option>Pune</option>
+            <option>Surat</option>
+            <option>Others</option>
           </select>
 
           <button className="bg-orange-500 text-white py-2 px-4 rounded-md shadow-lg hover:bg-orange-600 transition-all duration-300 ease-in-out">
