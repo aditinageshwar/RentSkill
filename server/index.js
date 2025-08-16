@@ -43,9 +43,9 @@ app.use(session({
         ttl: 14 * 24 * 60 * 60, 
     }),
     cookie: { 
-        secure: false,               
+        secure: true,               
         httpOnly: true,             
-        sameSite: 'Lax', 
+        sameSite: 'None', 
     }
 })); 
 
