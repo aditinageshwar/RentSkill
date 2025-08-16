@@ -22,10 +22,6 @@ const notificationRouter = require('./routes/Notification');
 const {connectMongoDB} = require('./connection');                     //establish connection
 connectMongoDB(process.env.MONGO_URL);
 
-app.use(express.json());                                              //Middleware - plugins      
-app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(cookieParser());
 app.set('trust proxy', 1);
 
 app.use(cors({
@@ -34,6 +30,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.use(express.json());                                              //Middleware - plugins      
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(cookieParser());
 
 app.use(session({
     secret: 'aditi@24', 
