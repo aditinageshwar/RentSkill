@@ -92,7 +92,7 @@ const UserProfile = ({onClose}) => {
       <div className="bg-gray-300 p-6 text-center rounded-md shadow-2xl shadow-black w-96 h-[400px]">
         <div className="flex items-center justify-center relative">
           <img
-            src={user.profileImg ? `${process.env.REACT_APP_API_URL}/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
+            src={user.profileImg ? `${import.meta.env.VITE_API_URL}/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
             alt="Profile"
             className="w-20 h-20 rounded-full object-cover border-2 border-black mt-[-60px]"
           />

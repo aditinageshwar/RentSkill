@@ -117,7 +117,7 @@ const BrowseSkill = () => {
   };
 
   useEffect(() => {
-    socket.current = io(process.env.REACT_APP_API_URL, { withCredentials: true });
+    socket.current = io(import.meta.env.VITE_API_URL, { withCredentials: true });
 
     socket.current.on('newSkill', async(newSkill) => {
       if (newSkill.profileImg instanceof Blob || newSkill.profileImg instanceof File) 
