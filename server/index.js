@@ -36,11 +36,12 @@ app.use(cors({
 app.use(session({
     secret: 'aditi@24', 
     resave: false, 
-    saveUninitialized: true, 
+    saveUninitialized: false, 
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URL,
         collection: 'sessions',
         ttl: 14 * 24 * 60 * 60, 
+        stringify: false,
     }),
     cookie: { 
         secure: true,               
