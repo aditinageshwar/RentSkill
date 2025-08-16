@@ -23,6 +23,7 @@ const {connectMongoDB} = require('./connection');                     //establis
 connectMongoDB(process.env.MONGO_URL);
 
 app.set('trust proxy', 1);
+res.setHeader('X-Debug-Token', token);
 
 app.use(cors({
     origin: 'https://rentskill-2.onrender.com',                                   // Frontend URL
