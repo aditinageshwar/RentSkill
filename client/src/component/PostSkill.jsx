@@ -62,7 +62,7 @@ const PostSkill = () => {
     e.preventDefault();
     const newProvider = {
       id: Date.now(),                                                                     //for unique identification
-      profileImg : photo ? photo :  `http://localhost:8080/${user.profileImg}`,
+      profileImg : photo ? photo :  `${process.env.REACT_APP_API_URL}/${user.profileImg}`,
       name: user.name,
       email: user.email,
       phone: user.phone,
@@ -115,7 +115,7 @@ const PostSkill = () => {
   };
 
   useEffect(() => {
-    socket.current = io("http://localhost:8080", { withCredentials: true });
+    socket.current = io(process.env.REACT_APP_API_URL, { withCredentials: true });
     socket.current.on('newSkill', (newSkill) => {
       setProviders((prevProviders) => [...prevProviders, newSkill]);
     });
@@ -241,7 +241,7 @@ return (
             <div>
              <div className="flex items-center justify-center relative">
                 <img
-                  src={photo ? photo : user.profileImg ? `http://localhost:8080/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
+                  src={photo ? photo : user.profileImg ? `${process.env.REACT_APP_API_URL}/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
                   alt="Profile"
                   className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
                 />

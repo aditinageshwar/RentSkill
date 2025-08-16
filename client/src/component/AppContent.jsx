@@ -18,7 +18,7 @@ import ForgotPassword from './ForgotPassword';
 import NewPassword from './NewPassword';
 
 export const SkillContext = createContext();
-const socket = io("http://localhost:8080", { withCredentials: true });
+const socket = io(process.env.REACT_APP_API_URL, { withCredentials: true });
 
 function AppContent() {
   const [providers, setProviders] = useState([]);

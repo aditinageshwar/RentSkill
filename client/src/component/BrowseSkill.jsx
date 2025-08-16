@@ -117,7 +117,7 @@ const BrowseSkill = () => {
   };
 
   useEffect(() => {
-    socket.current = io("http://localhost:8080", { withCredentials: true });
+    socket.current = io(process.env.REACT_APP_API_URL, { withCredentials: true });
 
     socket.current.on('newSkill', async(newSkill) => {
       if (newSkill.profileImg instanceof Blob || newSkill.profileImg instanceof File) 
