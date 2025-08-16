@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',                                   // Frontend URL
+    origin: 'https://rentskill-2.onrender.com',                                   // Frontend URL
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -53,7 +53,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const io = socketIo(server,{
     cors: {
-        origin: "http://localhost:5173", 
+        origin: "https://rentskill-2.onrender.com", 
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', async({roomId, seekerEmail, providerEmail, Skill, Price}) => {     //provider accept request and connection established
 
-        const bookingResponse = await axios.post('http://localhost:8080/api/saveBooking', {
+        const bookingResponse = await axios.post('https://rentskill-1.onrender.com/api/saveBooking', {
             seekerEmail,
             providerEmail,
             Skill,
@@ -100,7 +100,7 @@ io.on('connection', (socket) => {
             date : new Date().toLocaleDateString('en-GB'),
         });
 
-        const notificationResponse = await axios.post('http://localhost:8080/api/notification', {
+        const notificationResponse = await axios.post('https://rentskill-1.onrender.com/api/notification', {
             notifications: [
              { email: providerEmail, message: `Great job! You've earned ₹ ${Price} for your ${Skill} skill through chat.`},
              { email: seekerEmail, message: `You Paid ₹ ${Price} for the ${Skill} skill you received through chat.`},
@@ -129,7 +129,7 @@ io.on('connection', (socket) => {
 
     socket.on('videoCallAnswer', async({ answer, seekerId, providerEmail, seekerEmail, Skill, Price }) => {               //provider answered videoCall
         io.to(seekerId).emit('videoCallAnswer', answer);
-        const bookingResponse = await axios.post('http://localhost:8080/api/saveBooking', {
+        const bookingResponse = await axios.post('https://rentskill-1.onrender.com/api/saveBooking', {
             seekerEmail,
             providerEmail,
             Skill,
@@ -137,7 +137,7 @@ io.on('connection', (socket) => {
             date : new Date().toLocaleDateString('en-GB'),
         });
 
-        const notificationResponse = await axios.post('http://localhost:8080/api/notification', {
+        const notificationResponse = await axios.post('https://rentskill-1.onrender.com/api/notification', {
             notifications: [
              { email: providerEmail, message: `Great job! You've earned ₹ ${Price} for your ${Skill} skill through video call.`},
              { email: seekerEmail, message: `You Paid ₹ ${Price} for the ${Skill} skill you received through video call.`},
