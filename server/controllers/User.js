@@ -17,6 +17,7 @@ handleSendOTP = async(req,res) => {
 handleVerifyOTP = async (req, res) => {
   const { otp } = req.body;
   const tempUser = req.session.tempUser;
+  console.log(tempUser);
   
   if(tempUser.otp != otp) 
     return res.status(400).json({ message: "Incorrect OTP" });
