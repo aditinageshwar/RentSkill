@@ -8,7 +8,7 @@ const author = nodemailer.createTransport(
   auth: 
   {
     user: 'aditinageshwar7@gmail.com',                        //sender email
-    pass: 'ljgk hpkf zasr kxob'                               //sender created app_password
+    pass: 'sipl glsl byxh egid'                               //sender created app_password
   }
 });
     
