@@ -8,7 +8,7 @@ const VerificationModal = ({handleVerify }) => {
 
   const handleChange = (e, index) => {
     const value = e.target.value;
-    if (/[^0-9]/.test(value)) 
+    if (/[^0-9]/.test(value))                                //check if it not a digit
       return; 
 
     const newOtp = [...otp];
