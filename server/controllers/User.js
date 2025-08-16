@@ -10,6 +10,7 @@ handleSendOTP = async(req,res) => {
   
   await sendOTPEmail(email, otp);                                                               // Send the OTP to the user's email
   req.session.tempUser = {email, otp, otpExpiry}; 
+  await req.session.save();
   res.status(200).send({ message: 'OTP sent successfully!' });
 }
 
