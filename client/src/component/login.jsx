@@ -67,7 +67,11 @@ function Login() {
     const formData = new FormData(loginDataRef.current);
     try 
     {
-      const response = await axiosInstance.post('/api/login', formData);
+      const response = await axiosInstance.post('/api/login', formData,
+        {
+          withCredentials: true,
+        }
+      );
       alert(response.data.message);
       e.target.reset(); 
       window.location.href = '/'; 
