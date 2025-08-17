@@ -73,7 +73,9 @@ function Login() {
       );
       alert(response.data.message);
       e.target.reset(); 
-      navigateTo('/', { replace: true });
+      setNavKey((prev) => prev + 1); // Forces Navbar to remount
+      navigateTo('/');
+
     } 
     catch (error) 
     {
