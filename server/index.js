@@ -11,7 +11,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const multer = require('multer'); 
+//const multer = require('multer'); 
+const cloudinary = require('./cloudinary.js');
+
 const axios = require('axios');
 
 const userRouter = require('./routes/User');                          //get router
@@ -33,7 +35,7 @@ app.use(cors({
 
 app.use(express.json());                                              //Middleware - plugins      
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 
 app.use(session({
@@ -53,8 +55,9 @@ app.use(session({
     }
 })); 
 
-const storage = multer.memoryStorage(); 
-const upload = multer({ storage: storage });
+//const storage = multer.memoryStorage(); 
+//const upload = multer({ storage: storage });
+
 const io = socketIo(server,{
     cors: {
         origin: "https://rentskill-2.onrender.com", 
