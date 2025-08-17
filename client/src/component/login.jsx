@@ -73,9 +73,8 @@ function Login() {
       );
       alert(response.data.message);
       e.target.reset(); 
-      window.dispatchEvent(new Event('authChange'));
       navigateTo('/');
-
+      window.location.reload();
     } 
     catch (error) 
     {
