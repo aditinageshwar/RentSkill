@@ -82,7 +82,7 @@ export default function BookingHistory()
       >
         <div className="p-6 text-center">
           <img
-            src={user.profileImg ? `${import.meta.env.VITE_API_URL}/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
+            src={user.profileImg ? user.profileImg : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
             alt="Profile"
             className="w-48 h-48 rounded-full object-cover mx-auto mt-8 mb-4 border-2 border-gray-300"
           />

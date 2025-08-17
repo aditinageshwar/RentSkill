@@ -62,7 +62,7 @@ const PostSkill = () => {
     e.preventDefault();
     const newProvider = {
       id: Date.now(),                                                                     //for unique identification
-      profileImg : photo ? photo :  `${import.meta.env.VITE_API_URL}/${user.profileImg}`,
+      profileImg : photo ? photo : user.profileImg,
       name: user.name,
       email: user.email,
       phone: user.phone,
@@ -241,7 +241,7 @@ return (
             <div>
              <div className="flex items-center justify-center relative">
                 <img
-                  src={photo ? photo : user.profileImg ? `${import.meta.env.VITE_API_URL}/${user.profileImg}` : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
+                  src={photo ? photo : user.profileImg ? user.profileImg : "https://static.vecteezy.com/system/resources/previews/018/765/757/original/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg"}
                   alt="Profile"
                   className="w-32 h-32 rounded-full object-cover border-2 border-black mt-[-10px]"
                 />

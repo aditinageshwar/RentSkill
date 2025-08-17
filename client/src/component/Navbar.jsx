@@ -26,8 +26,8 @@ function Navbar() {
       if (confirmLogout) 
       {
         // Cookies.remove('uid');
-        await axiosInstance.post('api/logout', {}, {
-          withCredentials: true,
+        await axiosInstance.post('/api/logout', {}, {
+          withCredentials: true
         });
         setIsLoggedIn(false);
         navigateTo('/');
