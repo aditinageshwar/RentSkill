@@ -142,8 +142,9 @@ const handleProfile = async(req, res) => {
 
   try {
     const userId = jwt.verify(token, 'rentskill');
+    console.log("userId", userId);
     const user = await User.findById(userId.id).select("-password");                    // Exclude password
-
+    console.log('user fond', user);
     if (!user) {
       return res.status(404).json({ message: "Oops, User not found!" });
     }
