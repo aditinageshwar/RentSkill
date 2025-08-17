@@ -135,6 +135,7 @@ handleReset = async(req,res) =>{
 }
 
 const handleProfile = async(req, res) => {
+  console.log('Cookies received:', req.cookies);
   const token = req.cookies.uid; 
   if (!token)                                                                          //user not logged-in
     return res.status(401).json({ message: "Unauthorized User" });

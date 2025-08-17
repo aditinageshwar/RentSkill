@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import gsap from "gsap";
 import logo from "../assets/logo.png"; 
 import { FaUserCircle } from "react-icons/fa";
@@ -148,17 +149,17 @@ function Navbar() {
     <nav className="bg-gray-800 text-white shadow-md">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         <div className="flex items-center space-x-12">
-          <a href="#" className="flex items-center">
+          <Link to="#" className="flex items-center">
             <img src={logo} alt="Logo" className="h-10 w-auto logo" />
-          </a>
+          </Link>
           <div className="hidden md:flex space-x-6 nav-links">
-            <a href="/" className="hover:text-orange-500">Home</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</a>
-            <a href="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleMyBooking}>My Booking</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleNotification}>Notifications</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleAbout}>About Us</a>
-            <a href="#" className="hover:text-orange-500" onClick={handleContactUs}>Contact Us</a>
+            <Link to="/" className="hover:text-orange-500">Home</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handleMyBooking}>My Booking</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handleNotification}>Notifications</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handleAbout}>About Us</Link>
+            <Link to="#" className="hover:text-orange-500" onClick={handleContactUs}>Contact Us</Link>
           </div>
         </div>
 
