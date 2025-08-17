@@ -37,7 +37,6 @@ router.post('/login', handleLogin);
 router.post('/forgotPassword', handleForgot);
 router.post('/resetPassword', handleReset);
 router.get('/userProfile', handleProfile);
-router.post('/logout', handleLogout);
 router.put("/updateProfile", upload.single('profileImg'), handleUpdateProfile);
 
 module.exports = router;

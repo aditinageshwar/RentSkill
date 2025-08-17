@@ -176,14 +176,4 @@ handleUpdateProfile = async(req,res)=>{
   }
 };
 
-handleLogout = async (req, res) => {
-   res.clearCookie('uid', {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'None'
-  });
-
-  res.json({ message: 'Logged out successfully' });
-};
-
 module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile};

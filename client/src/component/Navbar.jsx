@@ -6,35 +6,18 @@ import logo from "../assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
 import { AuthContext } from './AppContent';
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
 
 function Navbar() {
   const navigateTo = useNavigate();
   const [showProfile, setShowProfile] = useState(false); 
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-
-  useEffect(() => {
-    // const token = Cookies.get('uid');
-    // if (token) 
-    //   setIsLoggedIn(true); 
-
-  //   const checkLogin = async () => {
-  //   try {
-  //     const response = await axiosInstance.get('/api/userProfile', {
-  //       withCredentials: true
-  //     });
-  //     if (response.data.user) {
-  //       setIsLoggedIn(true);
-  //     }
-  //   } catch (error) {
-  //     setIsLoggedIn(false); 
-  //   }
-  // };
-
-  // checkLogin();
-  }, []);
+  // useEffect(() => {
+  //   const token = Cookies.get('uid');
+  //   if (token) 
+  //     setIsLoggedIn(true); 
+  // }, []);
 
   const handleClick = async () => { 
     if (isLoggedIn)
@@ -43,7 +26,6 @@ function Navbar() {
       if (confirmLogout) 
       {
         // Cookies.remove('uid');
-        await axiosInstance.post('/api/logout', {}, { withCredentials: true });
         setIsLoggedIn(false);
       }
     } 
