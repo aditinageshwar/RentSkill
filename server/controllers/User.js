@@ -7,7 +7,7 @@ handleSendOTP = async(req,res) => {
   const {email} = req.body;
   const otp = Math.floor(100000 + Math.random() * 900000).toString();                            // Generate a 6-digit numeric OTP
   const otpExpiry =  Date.now() +  60*1000;                                                      //OTP is valid only for 1 min
-  
+  console.log("otp", otp);
   await sendOTPEmail(email, otp);                                                               // Send the OTP to the user's email
   req.session.tempUser = {email, otp, otpExpiry}; 
   await req.session.save();
