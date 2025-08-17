@@ -73,7 +73,7 @@ function Login() {
       );
       alert(response.data.message);
       e.target.reset(); 
-      setNavKey((prev) => prev + 1); // Forces Navbar to remount
+      window.dispatchEvent(new Event('authChange'));
       navigateTo('/');
 
     } 

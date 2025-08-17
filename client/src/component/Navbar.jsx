@@ -31,6 +31,17 @@ function Navbar() {
   };
 
   checkLogin();
+
+  const handleAuthChange = () => {
+    checkLogin(); // Re-run login check
+  };
+
+  window.addEventListener('authChange', handleAuthChange);
+
+  return () => {
+    window.removeEventListener('authChange', handleAuthChange);
+  };
+
   }, []);
 
   const handleClick = async () => { 

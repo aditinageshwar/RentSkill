@@ -23,7 +23,6 @@ const socket = io(import.meta.env.VITE_API_URL, { withCredentials: true });
 function AppContent() {
   const [providers, setProviders] = useState([]);
   const navigate = useNavigate();
-  const [navKey, setNavKey] = useState(0);
 
   useEffect(() => {
     const [navigationEntry] = performance.getEntriesByType("navigation");
@@ -39,7 +38,7 @@ function AppContent() {
   return (
     <SkillContext.Provider value={{ providers, setProviders, postSkill }}>
       <div>
-        <Navbar key={navKey}/>
+        <Navbar/>
         <Routes>
           <Route
             path="/"
@@ -54,7 +53,7 @@ function AppContent() {
           <Route path="/bookingTable" element={<BookingHistory/>} />
           <Route path="/notification" element={<NotificationPage/>} />
           <Route path="/subcategory" element={<SubcategoryPage />} />
-          <Route path="/login" element={<Login setNavKey={setNavKey}/>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/browseSkill" element={<BrowseSkill />} />
