@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
 import { AuthContext } from './AppContent';
+import axiosInstance from "../Axios.js";
 //import Cookies from 'js-cookie';
 
 function Navbar() {

@@ -88,7 +88,6 @@ handleLogin = async(req,res) => {
     }
 
     const token = jwt.sign({ id: user._id }, 'rentskill', { expiresIn: "1d" });
-    console.log("Sending cookie with token:", token);
 
     res.cookie('uid', token, {
       httpOnly: true,
