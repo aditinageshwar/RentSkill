@@ -1,36 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, {  useContext, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import gsap from "gsap";
 import logo from "../assets/logo.png"; 
 import { FaUserCircle } from "react-icons/fa";
 import UserProfile from './UserProfile'; 
+import { AuthContext } from './AppContent';
 import Cookies from 'js-cookie';
 
 function Navbar() {
   const navigateTo = useNavigate();
   const [showProfile, setShowProfile] = useState(false); 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
 
   useEffect(() => {
     // const token = Cookies.get('uid');
     // if (token) 
     //   setIsLoggedIn(true); 
 
-    const checkLogin = async () => {
-    try {
-      const response = await axiosInstance.get('/api/userProfile', {
-        withCredentials: true
-      });
-      if (response.data.user) {
-        setIsLoggedIn(true);
-      }
-    } catch (error) {
-      setIsLoggedIn(false); 
-    }
-  };
+  //   const checkLogin = async () => {
+  //   try {
+  //     const response = await axiosInstance.get('/api/userProfile', {
+  //       withCredentials: true
+  //     });
+  //     if (response.data.user) {
+  //       setIsLoggedIn(true);
+  //     }
+  //   } catch (error) {
+  //     setIsLoggedIn(false); 
+  //   }
+  // };
 
-  checkLogin();
+  // checkLogin();
   }, []);
 
   const handleClick = async () => { 

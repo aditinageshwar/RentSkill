@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginImg from "../assets/login.png";
 import { gsap } from "gsap";
 import VerificationModal from "./VerificationModal.jsx"; 
+import { AuthContext } from './AppContent';
 import axiosInstance from "../Axios.js";
 
 function Login() {
@@ -12,6 +13,8 @@ function Login() {
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [isPasswordVisible2, setIsPasswordVisible2] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
+
   
   const containerRef = useRef(null);
   const formRef = useRef(null);
@@ -73,8 +76,8 @@ function Login() {
       );
       alert(response.data.message);
       e.target.reset(); 
+      setIsLoggedIn(true);
       navigateTo('/');
-      window.location.reload();
     } 
     catch (error) 
     {

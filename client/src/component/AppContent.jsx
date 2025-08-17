@@ -18,10 +18,13 @@ import ForgotPassword from './ForgotPassword';
 import NewPassword from './NewPassword';
 
 export const SkillContext = createContext();
+export const AuthContext = createContext();
+
 const socket = io(import.meta.env.VITE_API_URL, { withCredentials: true });
 
 function AppContent() {
   const [providers, setProviders] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +39,7 @@ function AppContent() {
   };
    
   return (
+  <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
     <SkillContext.Provider value={{ providers, setProviders, postSkill }}>
       <div>
         <Navbar/>
@@ -64,6 +68,7 @@ function AppContent() {
         <Footer />
       </div>
     </SkillContext.Provider>
+  </AuthContext.Provider>
   );
 }
 
