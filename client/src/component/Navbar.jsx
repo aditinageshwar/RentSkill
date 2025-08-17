@@ -139,7 +139,8 @@ function Navbar() {
           </Link>
           <div className="hidden md:flex space-x-6 nav-links">
             <Link to="/" className="hover:text-orange-500">Home</Link>
-            <Link to="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</Link>
+            {/* <Link to="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</Link> */}
+            <button onClick={handleBrowseSkill} className="hover:text-orange-500">Browse Skills</button>
             <Link to="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</Link>
             <Link to="#" className="hover:text-orange-500" onClick={handleMyBooking}>My Booking</Link>
             <Link to="#" className="hover:text-orange-500" onClick={handleNotification}>Notifications</Link>
