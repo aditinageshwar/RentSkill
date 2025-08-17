@@ -67,9 +67,8 @@ function Login() {
     const formData = new FormData(loginDataRef.current);
     try 
     {
-      const response = await axiosInstance.post('/api/login', formData,
-        {
-          withCredentials: true,
+      const response = await axiosInstance.post('/api/login', formData, {
+          withCredentials: true
         }
       );
       alert(response.data.message);
