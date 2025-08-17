@@ -109,7 +109,7 @@ handleForgot = async(req,res) =>{
     return res.status(400).json({ message: "User not found. Please sign up first!" });
   }
     
-  const link = `http://localhost:5173/NewPassword/${user._id}`;
+  const link = `https://rentskill-1.onrender.com/NewPassword/${user._id}`;
   sendLinkMail(email,link);
   req.session.userLink = link; 
   res.status(200).send({ message: 'Password Reset Link sent to your email successfully!' }); 
