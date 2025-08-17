@@ -142,9 +142,7 @@ const handleProfile = async(req, res) => {
 
   try {
     const userId = jwt.verify(token, 'rentskill');
-    console.log("userId", userId);
     const user = await User.findById(userId.id).select("-password");                    // Exclude password
-    console.log('user fond', user);
     if (!user) {
       return res.status(404).json({ message: "Oops, User not found!" });
     }
@@ -177,4 +175,13 @@ handleUpdateProfile = async(req,res)=>{
   }
 };
 
-module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile};
+handleLogout = async(req, res) => {
+  res.clearCookie('uid', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile, handleLogout};

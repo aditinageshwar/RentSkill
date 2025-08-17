@@ -27,7 +27,7 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage, limits: {fileSize: 10 * 1024 * 1024}});          //upto 10MB
 
-const {handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile } = require('../controllers/User');
+const {handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile, handleLogout } = require('../controllers/User');
 
 router.post('/send', handleSendOTP);
 router.post('/verify', handleVerifyOTP);
@@ -37,6 +37,7 @@ router.post('/login', handleLogin);
 router.post('/forgotPassword', handleForgot);
 router.post('/resetPassword', handleReset);
 router.get('/userProfile', handleProfile);
+router.post('/logout', handleLogout);
 router.put("/updateProfile", upload.single('profileImg'), handleUpdateProfile);
 
 module.exports = router;

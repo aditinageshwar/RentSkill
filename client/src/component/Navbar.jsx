@@ -26,7 +26,11 @@ function Navbar() {
       if (confirmLogout) 
       {
         // Cookies.remove('uid');
+        await axiosInstance.post('api/logout', {}, {
+          withCredentials: true,
+        });
         setIsLoggedIn(false);
+        navigateTo('/');
       }
     } 
     else 
@@ -139,13 +143,12 @@ function Navbar() {
           </Link>
           <div className="hidden md:flex space-x-6 nav-links">
             <Link to="/" className="hover:text-orange-500">Home</Link>
-            {/* <Link to="#" className="hover:text-orange-500" onClick={handleBrowseSkill}>Browse Skills</Link> */}
             <button onClick={handleBrowseSkill} className="hover:text-orange-500">Browse Skills</button>
-            <Link to="#" className="hover:text-orange-500" onClick={handlePostSkill}>Post Skills</Link>
-            <Link to="#" className="hover:text-orange-500" onClick={handleMyBooking}>My Booking</Link>
-            <Link to="#" className="hover:text-orange-500" onClick={handleNotification}>Notifications</Link>
-            <Link to="#" className="hover:text-orange-500" onClick={handleAbout}>About Us</Link>
-            <Link to="#" className="hover:text-orange-500" onClick={handleContactUs}>Contact Us</Link>
+            <button onClick={handlePostSkill} className="hover:text-orange-500">Post Skills</button>
+            <button onClick={handleMyBooking} className="hover:text-orange-500">My Booking</button>
+            <button onClick={handleNotification} className="hover:text-orange-500">Notifications</button>
+            <button onClick={handleAbout} className="hover:text-orange-500">About Us</button>
+            <button onClick={handleContactUs} className="hover:text-orange-500">Contact Us</button>
           </div>
         </div>
 

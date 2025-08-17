@@ -34,7 +34,6 @@ const BrowseSkill = () => {
           alert(response.data.message);
         else if (response.data.user)
         setUser(response.data.user);
-        console.log("user comes in browse skill", response.data);
       } 
       catch (error) {
         alert("Failed to load user data.");
