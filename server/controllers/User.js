@@ -90,7 +90,11 @@ handleLogin = async(req,res) => {
     const token = jwt.sign({ id: user._id }, 'rentskill', { expiresIn: "1d" });
     console.log("Sending cookie with token:", token);
 
-    res.cookie('uid', token);
+    res.cookie('uid', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
     res.status(200).json({ message: "Login successful" });
   } 
   catch (error) 
@@ -169,6 +173,16 @@ handleUpdateProfile = async(req,res)=>{
   catch (error) {
     res.status(500).json({ success: false });
   }
+};
+
+handleLogout = async (req, res) => {
+   res.clearCookie('uid', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None'
+  });
+
+  res.json({ message: 'Logged out successfully' });
 };
 
 module.exports = { handleSendOTP, handleVerifyOTP, handleResendOTP, handleSignUp, handleLogin, handleForgot, handleReset, handleProfile, handleUpdateProfile};

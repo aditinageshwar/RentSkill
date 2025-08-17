@@ -12,18 +12,34 @@ function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get('uid');
-    if (token) 
-      setIsLoggedIn(true); 
+    // const token = Cookies.get('uid');
+    // if (token) 
+    //   setIsLoggedIn(true); 
+
+    const checkLogin = async () => {
+    try {
+      const response = await axiosInstance.get('/api/userProfile', {
+        withCredentials: true
+      });
+      if (response.data.user) {
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      setIsLoggedIn(false); 
+    }
+  };
+
+  checkLogin();
   }, []);
 
-  const handleClick = () => { 
+  const handleClick = async () => { 
     if (isLoggedIn)
     {  
       const confirmLogout = window.confirm("You are about to log out. Are you sure?");
       if (confirmLogout) 
       {
-        Cookies.remove('uid');
+        // Cookies.remove('uid');
+        await axiosInstance.post('/api/logout', {}, { withCredentials: true });
         setIsLoggedIn(false);
       }
     } 
