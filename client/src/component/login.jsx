@@ -73,7 +73,7 @@ function Login() {
       );
       alert(response.data.message);
       e.target.reset(); 
-      navigateTo('/');
+      navigateTo('/', { replace: true });
     } 
     catch (error) 
     {
