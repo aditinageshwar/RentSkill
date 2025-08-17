@@ -77,7 +77,10 @@ function Navbar() {
 
   const handleBrowseSkill = () => {
     if(isLoggedIn)
-    navigateTo('/browseSkill');
+    {
+      console.log("Browse skill clicked");
+      navigateTo('/browseSkill');
+    }
     else
     alert("First, kindly log in to access this feature."); 
   };
