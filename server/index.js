@@ -42,6 +42,7 @@ app.use(session({
     secret: 'aditi@24', 
     resave: false, 
     saveUninitialized: false, 
+    proxy : true,
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_URL,
         collection: 'sessions',
