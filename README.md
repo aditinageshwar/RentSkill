@@ -20,7 +20,7 @@ This project enables users to rent skills by connecting with others for real-tim
 
 **• Email Verification** : Secure registration with email verification, ensuring that users can activate their accounts before accessing platform features.
 
-<h2>📒Technologies Used</h2>
+<h2>🛠️ Technologies Used</h2>
 
 **Frontend**: React
 
@@ -36,24 +36,15 @@ This project enables users to rent skills by connecting with others for real-tim
 
 **Email Verification**: Nodemailer
 
-<h2>📌 Installation</h2>
-A Step-by-step guide to installing and setting up the project locally.
+<h2>⚡Deployment</h2>
+- **Frontend:** [Render](https://rentskill-2.onrender.com)  
+- **Backend:** [Render](https://rentskill-1.onrender.com)  
+- **Database:** MongoDB Atlas
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/RentSkill.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the project:
-   ```bash
-   npm start
-   ```
+
 <h2>💠Usage</h2>
-After running the project, go to `http://localhost:5173` to access the application.
-
+You can access the live deployed application here: 
+👉 [RentSkill Live Demo] https://rentskill-2.onrender.com
 
 
 <h2>📧 Contact</h2>
