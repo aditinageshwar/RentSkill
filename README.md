@@ -37,14 +37,15 @@ This project enables users to rent skills by connecting with others for real-tim
 **Email Verification**: Nodemailer
 
 <h2>⚡Deployment</h2>
-- **Frontend:** [Render](https://rentskill-2.onrender.com)  
-- **Backend:** [Render](https://rentskill-1.onrender.com)  
-- **Database:** MongoDB Atlas
+
+**Frontend** : [Render](https://rentskill-2.onrender.com)  
+**Backend:** : [Render](https://rentskill-1.onrender.com)  
+**Database:**: MongoDB Atlas
 
 
 <h2>💠Usage</h2>
 You can access the live deployed application here: 
-👉 [RentSkill Live Demo] https://rentskill-2.onrender.com
+👉 https://rentskill-2.onrender.com
 
 
 <h2>📧 Contact</h2>
