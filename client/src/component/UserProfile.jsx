@@ -64,7 +64,9 @@ const UserProfile = ({onClose}) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get("/api/userProfile");
+        const response = await axiosInstance.get("/api/userProfile", {
+          withCredentials: true 
+        });
         if (response.data.message) 
           alert(response.data.message);
         else if (response.data.user)
