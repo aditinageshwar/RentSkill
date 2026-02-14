@@ -104,15 +104,6 @@ const AboutUs = () => {
             Keep in touch with your expert anytime, anywhere, through easy-to-use messaging.
           </p>
         </div>
-
-        {/* Easy Communication */}
-        <div className="flex flex-col items-center bg-gray-200 shadow-lg rounded-md p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <FaComments className="text-4xl text-teal-600 mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Seamless Communication</h3>
-          <p className="text-gray-600">
-            Allow communication in real time with the help of chats.
-          </p>
-        </div>
       </div>
     </section>
 
